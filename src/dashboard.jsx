@@ -137,7 +137,7 @@ function Dashboard() {
                         <div className={`${isVisible ? 'slide-in-right' : 'opacity-0'} flex justify-center md:justify-end`}>
                             <div className="relative">
                                 <img 
-                                    src="/images/fotogua.png" 
+                                    src="/images/FotoCloseupWajah.png" 
                                     alt="Anugraha Galih Saputra"
                                     className="w-72 h-72 md:w-96 md:h-96 object-cover rounded-3xl shadow-2xl"
                                 />
