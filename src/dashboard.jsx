@@ -137,7 +137,7 @@ function Dashboard() {
                         <div className={`${isVisible ? 'slide-in-right' : 'opacity-0'} flex justify-center md:justify-end`}>
                             <div className="relative">
                                 <img 
-                                    src="/images/fotogua.png" 
+                                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=500&fit=crop&crop=face" 
                                     alt="Anugraha Galih Saputra"
                                     className="w-72 h-72 md:w-96 md:h-96 object-cover rounded-3xl shadow-2xl"
                                 />
@@ -148,7 +148,7 @@ function Dashboard() {
             </section>
 
             {/* About Section */}
-            <section className="py-20 bg-white">
+            <section className="py-12 bg-white">
                 <div className="container mx-auto px-6 max-w-4xl">
                     <div className={`${isVisible ? 'fade-in' : 'opacity-0'} flex items-center justify-center gap-6`}>
                         <div className="hidden md:block h-px flex-1 bg-gradient-to-r from-transparent via-blue-300 to-blue-500"></div>
@@ -161,7 +161,7 @@ function Dashboard() {
             </section>
 
             {/* Social Links Section */}
-            <section className="py-16 bg-gray-50">
+            <section className="py-10 bg-gray-50">
                 <div className={`${isVisible ? 'fade-in' : 'opacity-0'} container mx-auto px-6`}>
                     <div className="flex justify-center gap-6 flex-wrap">
                         <a 
@@ -201,9 +201,9 @@ function Dashboard() {
             </section>
 
             {/* Portfolio Gallery Section */}
-            <section className="py-20 bg-white">
+            <section className="py-16 bg-white">
                 <div className="container mx-auto px-6">
-                    <h2 className="text-4xl md:text-5xl font-bold text-center mb-16" style={{ color: '#007BFF' }}>
+                    <h2 className="text-4xl md:text-5xl font-bold text-center mb-12" style={{ color: '#007BFF' }}>
                         Portfolio
                     </h2>
                     
