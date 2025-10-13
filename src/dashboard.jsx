@@ -38,6 +38,11 @@ function Dashboard() {
         setIsVisible(true);
     }, []);
 
+    const scrollToSection = (id) => {
+        const section = document.getElementById(id);
+        if (section) section.scrollIntoView({ behavior: 'smooth' });
+    };
+
     const projects = [
         {
             title: "E-Commerce Platform",
@@ -78,50 +83,73 @@ function Dashboard() {
     ];
 
     return (
-        <div className="min-h-screen bg-white font-sans">
+        <div className="min-h-screen bg-white font-sans relative">
             <style>{`
                 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
-                
+
                 * {
                     font-family: 'Inter', sans-serif;
                     scroll-behavior: smooth;
                 }
-                
+
                 .fade-in {
                     animation: fadeIn 1s ease-in;
                 }
-                
+
                 @keyframes fadeIn {
                     from { opacity: 0; transform: translateY(20px); }
                     to { opacity: 1; transform: translateY(0); }
                 }
-                
+
                 .slide-in-left {
                     animation: slideInLeft 0.8s ease-out;
                 }
-                
+
                 @keyframes slideInLeft {
                     from { opacity: 0; transform: translateX(-50px); }
                     to { opacity: 1; transform: translateX(0); }
                 }
-                
+
                 .slide-in-right {
                     animation: slideInRight 0.8s ease-out;
                 }
-                
+
                 @keyframes slideInRight {
                     from { opacity: 0; transform: translateX(50px); }
                     to { opacity: 1; transform: translateX(0); }
                 }
             `}</style>
 
-            {/* Hero Section */}
-            <section className="relative min-h-screen flex items-center" style={{
+            {/* ===== Navbar ===== */}
+            <nav className="fixed top-0 left-0 w-full bg-white/80 backdrop-blur-md shadow-sm z-50">
+                <div className="container mx-auto py-4 flex justify-center gap-8">
+                    <button
+                        onClick={() => scrollToSection('profile')}
+                        className="text-blue-600 font-semibold hover:text-blue-800 transition"
+                    >
+                        Profile
+                    </button>
+                    <button
+                        onClick={() => scrollToSection('portfolio')}
+                        className="text-blue-600 font-semibold hover:text-blue-800 transition"
+                    >
+                        Portfolio
+                    </button>
+                    <button
+                        onClick={() => scrollToSection('sosmed')}
+                        className="text-blue-600 font-semibold hover:text-blue-800 transition"
+                    >
+                        Sosmed
+                    </button>
+                </div>
+            </nav>
+
+            {/* ===== Hero / Profile Section ===== */}
+            <section id="profile" className="relative min-h-screen flex items-center pt-20" style={{
                 background: 'linear-gradient(to bottom, #EAF3FF 0%, #ffffff 100%)'
             }}>
                 <div className="container mx-auto px-6 py-20">
                     <div className="grid md:grid-cols-2 gap-12 items-center">
-                        {/* Text Content */}
                         <div className={`${isVisible ? 'slide-in-left' : 'opacity-0'}`}>
                             <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold leading-tight" style={{ color: '#007BFF' }}>
                                 <div>Anugraha</div>
@@ -133,66 +161,44 @@ function Dashboard() {
                             </p>
                         </div>
 
-                        {/* Profile Image */}
                         <div className={`${isVisible ? 'slide-in-right' : 'opacity-0'} flex justify-center md:justify-end`}>
-                            <div className="relative">
-                                <img 
-                                    src="/images/fotogua.png" 
-                                    alt="Anugraha Galih Saputra"
-                                    className="w-72 h-72 md:w-96 md:h-96 object-cover rounded-3xl shadow-2xl"
-                                />
-                            </div>
+                            <img
+                                src="/images/fotogua.png"
+                                alt="Anugraha Galih Saputra"
+                                className="w-72 h-72 md:w-96 md:h-96 object-cover rounded-3xl shadow-2xl"
+                            />
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* About Section */}
-            <section className="py-12 bg-white">
-                <div className="container mx-auto px-6 max-w-4xl">
-                    <div className={`${isVisible ? 'fade-in' : 'opacity-0'} flex items-center justify-center gap-6`}>
-                        <div className="hidden md:block h-px flex-1 bg-gradient-to-r from-transparent via-blue-300 to-blue-500"></div>
-                        <p className="text-lg md:text-xl text-gray-700 text-center leading-relaxed px-4">
-                            I am a web developer specializing in building dynamic websites using React.js for both frontend and backend.
-                        </p>
-                        <div className="hidden md:block h-px flex-1 bg-gradient-to-l from-transparent via-blue-300 to-blue-500"></div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Social Links Section */}
-            <section className="py-10 bg-gray-50">
+            {/* ===== Sosmed Section ===== */}
+            <section id="sosmed" className="py-10 bg-gray-50">
                 <div className={`${isVisible ? 'fade-in' : 'opacity-0'} container mx-auto px-6`}>
                     <div className="flex justify-center gap-6 flex-wrap">
-                        <a 
-                            href="https://www.instagram.com/anugraha_gs?igsh=MWR5d2Q5eXd5aW53NA==" 
-                            target="_blank" 
+                        <a href="https://www.instagram.com/anugraha_gs?igsh=MWR5d2Q5eXd5aW53NA=="
+                            target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center gap-3 px-8 py-4 bg-white rounded-full shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105"
-                            style={{ border: '2px solid #007BFF' }}
-                        >
+                            style={{ border: '2px solid #007BFF' }}>
                             <Instagram className="w-6 h-6" style={{ color: '#007BFF' }} />
                             <span className="font-medium" style={{ color: '#007BFF' }}>Instagram</span>
                         </a>
-                        
-                        <a 
-                            href="https://wa.me/085702055011" 
-                            target="_blank" 
+
+                        <a href="https://wa.me/085702055011"
+                            target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center gap-3 px-8 py-4 bg-white rounded-full shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105"
-                            style={{ border: '2px solid #007BFF' }}
-                        >
+                            style={{ border: '2px solid #007BFF' }}>
                             <MessageCircle className="w-6 h-6" style={{ color: '#007BFF' }} />
                             <span className="font-medium" style={{ color: '#007BFF' }}>WhatsApp</span>
                         </a>
-                        
-                        <a 
-                            href="https://www.linkedin.com/in/Anugraha-Galih-Saputra" 
-                            target="_blank" 
+
+                        <a href="https://www.linkedin.com/in/Anugraha-Galih-Saputra"
+                            target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center gap-3 px-8 py-4 bg-white rounded-full shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105"
-                            style={{ border: '2px solid #007BFF' }}
-                        >
+                            style={{ border: '2px solid #007BFF' }}>
                             <Linkedin className="w-6 h-6" style={{ color: '#007BFF' }} />
                             <span className="font-medium" style={{ color: '#007BFF' }}>LinkedIn</span>
                         </a>
@@ -200,22 +206,19 @@ function Dashboard() {
                 </div>
             </section>
 
-            {/* Portfolio Gallery Section */}
-            <section className="py-16 bg-white">
+            {/* ===== Portfolio Section ===== */}
+            <section id="portfolio" className="py-16 bg-white">
                 <div className="container mx-auto px-6">
                     <h2 className="text-4xl md:text-5xl font-bold text-center mb-12" style={{ color: '#007BFF' }}>
                         Portfolio
                     </h2>
-                    
+
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {projects.map((project, index) => (
-                            <div 
-                                key={index}
-                                className="bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:scale-105"
-                            >
+                            <div key={index} className="bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:scale-105">
                                 <div className="relative overflow-hidden h-48">
-                                    <img 
-                                        src={project.image} 
+                                    <img
+                                        src={project.image}
                                         alt={project.title}
                                         className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
                                     />
@@ -227,13 +230,11 @@ function Dashboard() {
                                     <p className="text-gray-600 mb-4">
                                         {project.description}
                                     </p>
-                                    <a 
-                                        href={project.link}
+                                    <a href={project.link}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-white transition-all duration-300 hover:shadow-lg"
-                                        style={{ backgroundColor: '#007BFF' }}
-                                    >
+                                        style={{ backgroundColor: '#007BFF' }}>
                                         <span>View Project</span>
                                         <ExternalLink className="w-4 h-4" />
                                     </a>
@@ -244,7 +245,7 @@ function Dashboard() {
                 </div>
             </section>
 
-            {/* Footer */}
+            {/* ===== Footer ===== */}
             <footer className="py-8 bg-white border-t border-gray-200">
                 <div className="container mx-auto px-6 text-center">
                     <p className="text-sm" style={{ color: '#007BFF' }}>
