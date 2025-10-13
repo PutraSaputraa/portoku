@@ -145,7 +145,7 @@ function Dashboard() {
             </nav>
 
             {/* ===== Hero / Profile Section ===== */}
-            <section id="profile" className="relative min-h-screen flex items-center" style={{
+            <section id="profile" className="relative flex items-center pt-8" style={{
                 background: 'linear-gradient(to bottom, #EAF3FF 0%, #ffffff 100%)'
             }}>
                 <div className="container mx-auto px-6">
