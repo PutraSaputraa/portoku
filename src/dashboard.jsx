@@ -122,7 +122,7 @@ function Dashboard() {
                 <div className="container mx-auto px-6 py-20">
                     <div className="grid md:grid-cols-2 gap-12 items-center">
                         {/* Text Content */}
-                        <div className={`${isVisible ? 'slide-in-left' : 'opacity-0'} space-y-6`}>
+                        <div className={`${isVisible ? 'slide-in-left' : 'opacity-0'}`}>
                             <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold leading-tight" style={{ color: '#007BFF' }}>
                                 <div>Anugraha</div>
                                 <div>Galih</div>
