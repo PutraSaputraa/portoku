@@ -148,7 +148,7 @@ function Dashboard() {
             <section id="profile" className="relative min-h-screen flex items-center" style={{
                 background: 'linear-gradient(to bottom, #EAF3FF 0%, #ffffff 100%)'
             }}>
-                <div className="container mx-auto px-6 py-20">
+                <div className="container mx-auto px-6">
                     <div className="grid md:grid-cols-2 gap-12 items-center">
                         <div className={`${isVisible ? 'slide-in-left' : 'opacity-0'}`}>
                             <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold leading-tight" style={{ color: '#007BFF' }}>
