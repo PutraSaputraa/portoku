@@ -156,7 +156,7 @@ function Dashboard() {
                                 <div>Galih</div>
                                 <div>Saputra</div>
                             </h1>
-                            <p className="text-2xl md:text-3xl font-light text-gray-700">
+                            <p className="text-2xl md:text-3xl font-light text-gray-700 mt-2">
                                 Web Developer
                             </p>
                         </div>
