@@ -1,5 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import { Instagram, Linkedin, MessageCircle, ExternalLink } from 'lucide-react';
+
+// Custom SVG Icons
+const Instagram = ({ className, style }) => (
+    <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+    </svg>
+);
+
+const Linkedin = ({ className, style }) => (
+    <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+        <rect x="2" y="9" width="4" height="12"></rect>
+        <circle cx="4" cy="4" r="2"></circle>
+    </svg>
+);
+
+const MessageCircle = ({ className, style }) => (
+    <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+    </svg>
+);
+
+const ExternalLink = ({ className }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+        <polyline points="15 3 21 3 21 9"></polyline>
+        <line x1="10" y1="14" x2="21" y2="3"></line>
+    </svg>
+);
 
 function Dashboard() {
     const [isVisible, setIsVisible] = useState(false);
@@ -107,7 +137,7 @@ function Dashboard() {
                         <div className={`${isVisible ? 'slide-in-right' : 'opacity-0'} flex justify-center md:justify-end`}>
                             <div className="relative">
                                 <img 
-                                    src="/images/fotogua.png" 
+                                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=500&fit=crop&crop=face" 
                                     alt="Anugraha Galih Saputra"
                                     className="w-72 h-72 md:w-96 md:h-96 object-cover rounded-3xl shadow-2xl"
                                 />
@@ -135,7 +165,7 @@ function Dashboard() {
                 <div className={`${isVisible ? 'fade-in' : 'opacity-0'} container mx-auto px-6`}>
                     <div className="flex justify-center gap-6 flex-wrap">
                         <a 
-                            href="https://instagram.com" 
+                            href="https://www.instagram.com/anugraha_gs?igsh=MWR5d2Q5eXd5aW53NA==" 
                             target="_blank" 
                             rel="noopener noreferrer"
                             className="flex items-center gap-3 px-8 py-4 bg-white rounded-full shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105"
@@ -146,7 +176,7 @@ function Dashboard() {
                         </a>
                         
                         <a 
-                            href="https://wa.me/" 
+                            href="https://wa.me/085702055011" 
                             target="_blank" 
                             rel="noopener noreferrer"
                             className="flex items-center gap-3 px-8 py-4 bg-white rounded-full shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105"
@@ -157,7 +187,7 @@ function Dashboard() {
                         </a>
                         
                         <a 
-                            href="https://linkedin.com" 
+                            href="https://www.linkedin.com/in/Anugraha-Galih-Saputra" 
                             target="_blank" 
                             rel="noopener noreferrer"
                             className="flex items-center gap-3 px-8 py-4 bg-white rounded-full shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105"
