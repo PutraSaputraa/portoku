@@ -48,13 +48,13 @@ function Dashboard() {
             title: "Web Dusun Tegalurung",
             description: "Static Website for Tegalurung Village",
             image: "/images/webtegalurung.png",
-            link: "#"
+            link: "https://dusuntegalurung.netlify.app/"
         },
         {
             title: "Portfolio CMS",
             description: "Content management system for creative professionals",
             image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop",
-            link: "https://dusuntegalurung.netlify.app/"
+            link: "#"
         },
         {
             title: "Task Manager App",
