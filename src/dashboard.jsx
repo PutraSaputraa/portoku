@@ -204,7 +204,7 @@ function Dashboard() {
                             <span className="font-medium" style={{ color: '#007BFF' }}>Instagram</span>
                         </a>
 
-                        <a href="https://wa.me/085702055011"
+                        <a href="https://wa.me/6285702055011"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center gap-3 px-8 py-4 bg-white rounded-full shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105"
