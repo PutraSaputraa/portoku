@@ -122,22 +122,22 @@ function Dashboard() {
 
             {/* ===== Navbar ===== */}
             <nav className="top-0 left-0 w-full bg-white/80 backdrop-blur-md shadow-sm z-50">
-                <div className="container mx-auto py-4 flex justify-center gap-8">
+                <div className="container mx-auto py-3 flex justify-center gap-6">
                     <button
                         onClick={() => scrollToSection('profile')}
-                        className="text-blue-600 font-semibold hover:text-blue-800 transition"
+                        className="text-blue-600 font-semibold hover:text-blue-800 transition text-sm md:text-base"
                     >
                         Profile
                     </button>
                     <button
                         onClick={() => scrollToSection('portfolio')}
-                        className="text-blue-600 font-semibold hover:text-blue-800 transition"
+                        className="text-blue-600 font-semibold hover:text-blue-800 transition text-sm md:text-base"
                     >
                         Portfolio
                     </button>
                     <button
                         onClick={() => scrollToSection('sosmed')}
-                        className="text-blue-600 font-semibold hover:text-blue-800 transition"
+                        className="text-blue-600 font-semibold hover:text-blue-800 transition text-sm md:text-base"
                     >
                         Sosmed
                     </button>
@@ -145,18 +145,18 @@ function Dashboard() {
             </nav>
 
             {/* ===== Hero / Profile Section ===== */}
-            <section id="profile" className="relative flex items-center pt-32 pb-12" style={{
+            <section id="profile" className="relative flex items-center pt-16 pb-8 md:pt-32 md:pb-12" style={{
                 background: 'linear-gradient(to bottom, #EAF3FF 0%, #ffffff 100%)'
             }}>
                 <div className="container mx-auto px-6">
-                    <div className="grid md:grid-cols-2 gap-12 items-center">
+                    <div className="grid md:grid-cols-2 gap-8 items-center">
                         <div className={`${isVisible ? 'slide-in-left' : 'opacity-0'}`}>
-                            <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold leading-tight" style={{ color: '#007BFF' }}>
+                            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight" style={{ color: '#007BFF' }}>
                                 <div>Anugraha</div>
                                 <div>Galih</div>
                                 <div>Saputra</div>
                             </h1>
-                            <p className="text-2xl md:text-3xl font-light text-gray-700 mt-2">
+                            <p className="text-xl md:text-3xl font-light text-gray-700 mt-2">
                                 Web Developer
                             </p>
                         </div>
@@ -165,9 +165,28 @@ function Dashboard() {
                             <img
                                 src="/images/fotogua.png"
                                 alt="Anugraha Galih Saputra"
-                                className="w-72 h-72 md:w-96 md:h-96 object-cover rounded-3xl shadow-2xl"
+                                className="w-64 h-64 md:w-96 md:h-96 object-cover rounded-3xl shadow-2xl"
                             />
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* ===== About Me Section ===== */}
+            <section className="py-12 bg-white">
+                <div className={`${isVisible ? 'fade-in' : 'opacity-0'} container mx-auto px-6 max-w-4xl`}>
+                    <div className="text-center">
+                        <h2 className="text-3xl md:text-4xl font-bold mb-6" style={{ color: '#007BFF' }}>
+                            Tentang Saya
+                        </h2>
+                        <p className="text-base md:text-lg text-gray-700 leading-relaxed">
+                            Halo! Saya <span className="font-semibold" style={{ color: '#007BFF' }}>Anugraha Galih Saputra</span>, 
+                            mahasiswa <span className="font-semibold">UPN "Veteran" Yogyakarta</span> yang memiliki passion mendalam 
+                            dalam dunia <span className="font-semibold" style={{ color: '#007BFF' }}>Web Development</span> dan{' '}
+                            <span className="font-semibold" style={{ color: '#007BFF' }}>Mobile Development</span>. 
+                            Saya terus mengasah kemampuan untuk menciptakan solusi digital yang inovatif dan user-friendly, 
+                            dengan harapan dapat berkontribusi dalam membangun teknologi yang bermanfaat bagi banyak orang.
+                        </p>
                     </div>
                 </div>
             </section>
