@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from 'react';
 
+// Custom SVG Icons
 const Instagram = ({ className, style }) => (
     <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
@@ -30,27 +31,6 @@ const ExternalLink = ({ className }) => (
     </svg>
 );
 
-const projects = [
-    {
-        title: "Web Dusun Tegalurung",
-        description: "Static website untuk profil Dusun Tegalurung.",
-        image: "/images/webtegalurung.png",
-        link: "https://dusuntegalurung.netlify.app/",
-    },
-    {
-        title: "Duat Duit",
-        description: "Aplikasi web untuk kebutuhan pencatatan dan pengelolaan duit.",
-        image: null,
-        link: "https://duatduit.netlify.app/",
-    },
-    {
-        title: "Findives",
-        description: "Aplikasi web Findives yang dipublikasikan melalui Netlify.",
-        image: null,
-        link: "https://findives.netlify.app/",
-    },
-];
-
 function Dashboard() {
     const [isVisible, setIsVisible] = useState(false);
 
@@ -58,115 +38,237 @@ function Dashboard() {
         setIsVisible(true);
     }, []);
 
+    const scrollToSection = (id) => {
+        const section = document.getElementById(id);
+        if (section) section.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    const projects = [
+        {
+            title: "Web Dusun Tegalurung",
+            description: "Static Website for Tegalurung Village",
+            image: "/images/webtegalurung.png",
+            link: "https://dusuntegalurung.netlify.app/"
+        },
+        {
+            title: "Portfolio CMS",
+            description: "Content management system for creative professionals",
+            image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop",
+            link: "#"
+        },
+        {
+            title: "Task Manager App",
+            description: "Collaborative productivity tool with real-time updates",
+            image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=400&h=250&fit=crop",
+            link: "#"
+        },
+        {
+            title: "Restaurant Booking",
+            description: "Reservation system with menu showcase and table management",
+            image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=250&fit=crop",
+            link: "#"
+        },
+        {
+            title: "Fitness Tracker",
+            description: "Health monitoring dashboard with progress visualization",
+            image: "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=400&h=250&fit=crop",
+            link: "#"
+        },
+        {
+            title: "Blog Platform",
+            description: "Modern blogging system with markdown support",
+            image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=400&h=250&fit=crop",
+            link: "#"
+        }
+    ];
+
     return (
-        <div>
-            <div className="h-16 flex items-center bg-blue-100">
-                <h1 className="text-blue-600 font-poppins text-xl pt-2 font-semibold ml-4">About Saputra</h1>
-            </div>
+        <div className="min-h-screen bg-white font-sans relative">
+            <style>{`
+                @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
 
-            <section className="min-h-screen">
-                <div className="h-[50vh] relative bg-gradient-to-b from-blue-100 to-white">
-                    <img
-                        src="/images/fotogua.png"
-                        alt="Foto Closeup Wajah"
-                        className="absolute fade-mask z-10"
-                    />
-                    <h1 className="absolute bottom-40 left-2 font-poppins text-7xl font-bold text-blue-600 tracking-wider z-0">Anugraha</h1>
-                    <h1 className="absolute bottom-20 left-8 font-poppins text-7xl font-bold text-blue-500 tracking-wider z-0">Galih</h1>
-                    <h1 className="absolute bottom-3 left-4 font-poppins text-7xl font-bold text-blue-600 tracking-wider z-20">Saputra</h1>
+                * {
+                    font-family: 'Inter', sans-serif;
+                    scroll-behavior: smooth;
+                }
+
+                .fade-in {
+                    animation: fadeIn 1s ease-in;
+                }
+
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(20px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+
+                .slide-in-left {
+                    animation: slideInLeft 0.8s ease-out;
+                }
+
+                @keyframes slideInLeft {
+                    from { opacity: 0; transform: translateX(-50px); }
+                    to { opacity: 1; transform: translateX(0); }
+                }
+
+                .slide-in-right {
+                    animation: slideInRight 0.8s ease-out;
+                }
+
+                @keyframes slideInRight {
+                    from { opacity: 0; transform: translateX(50px); }
+                    to { opacity: 1; transform: translateX(0); }
+                }
+            `}</style>
+
+            {/* ===== Navbar ===== */}
+            <nav className="top-0 left-0 w-full bg-white/80 backdrop-blur-md shadow-sm z-50">
+                <div className="container mx-auto py-3 flex justify-center gap-6">
+                    <button
+                        onClick={() => scrollToSection('profile')}
+                        className="text-blue-600 font-semibold hover:text-blue-800 transition text-sm md:text-base"
+                    >
+                        Profile
+                    </button>
+                    <button
+                        onClick={() => scrollToSection('portfolio')}
+                        className="text-blue-600 font-semibold hover:text-blue-800 transition text-sm md:text-base"
+                    >
+                        Portfolio
+                    </button>
+                    <button
+                        onClick={() => scrollToSection('sosmed')}
+                        className="text-blue-600 font-semibold hover:text-blue-800 transition text-sm md:text-base"
+                    >
+                        Sosmed
+                    </button>
                 </div>
+            </nav>
 
-                <div className="h-60 relative">
-                    <h1 className="absolute top-16 left-4 font-poppins text-2xl font-bold text-blue-600">"Aku adalah spiderman, pelindung masyarakat dan tetangga yang ramah"</h1>
-                </div>
+            {/* ===== Hero / Profile Section ===== */}
+            <section id="profile" className="relative flex items-center pt-16 pb-8 md:pt-32 md:pb-12" style={{
+                background: 'linear-gradient(to bottom, #EAF3FF 0%, #ffffff 100%)'
+            }}>
+                <div className="container mx-auto px-6">
+                    <div className="grid md:grid-cols-2 gap-8 items-center">
+                        <div className={`${isVisible ? 'slide-in-left' : 'opacity-0'}`}>
+                            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight" style={{ color: '#007BFF' }}>
+                                <div>Anugraha</div>
+                                <div>Galih</div>
+                                <div>Saputra</div>
+                            </h1>
+                            <p className="text-xl md:text-3xl font-light text-gray-700 mt-2">
+                                Web Developer
+                            </p>
+                        </div>
 
-                <div className="min-h-[75vh] relative bg-blue-500 flex justify-center">
-                    <h1 className="font-poppins text-4xl font-bold text-white mt-16">My academy</h1>
-                    <img
-                        src="/images/fotosma7.png"
-                        alt="SMA7"
-                        className="h-[380px] absolute top-44 z-10 rounded-tl-[80px] rounded-br-[80px]"
-                    />
-                    <h1 className="font-poppins text-3xl font-bold text-white mt-6 absolute bottom-12 left-5">SMAN 7 Yogyakarta</h1>
+                        <div className={`${isVisible ? 'slide-in-right' : 'opacity-0'} flex justify-center md:justify-end`}>
+                            <img
+                                src="/images/fotogua.png"
+                                alt="Anugraha Galih Saputra"
+                                className="w-64 h-64 md:w-96 md:h-96 object-cover rounded-3xl shadow-2xl"
+                            />
+                        </div>
+                    </div>
                 </div>
             </section>
 
-            <section id="portfolio" className="bg-white px-4 py-16">
-                <div className={`${isVisible ? "fade-in" : "opacity-0"} mx-auto max-w-5xl`}>
-                    <h1 className="font-poppins text-4xl font-bold text-blue-600">My Portfolio</h1>
-                    <div className="mt-8 grid gap-5 md:grid-cols-3">
-                        {projects.map((project) => (
-                            <a
-                                key={project.link}
-                                href={project.link}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="group block overflow-hidden rounded-lg border border-blue-100 bg-blue-50 transition hover:-translate-y-1 hover:border-blue-300 hover:bg-white hover:shadow-lg"
-                            >
-                                {project.image ? (
-                                    <img src={project.image} alt={project.title} className="h-44 w-full object-cover" />
-                                ) : (
-                                    <div className="flex h-44 items-center justify-center bg-blue-600">
-                                        <span className="font-poppins text-3xl font-bold text-white">{project.title}</span>
-                                    </div>
-                                )}
-                                <div className="p-5">
-                                    <h2 className="font-poppins text-2xl font-bold text-blue-700">{project.title}</h2>
-                                    <p className="mt-3 font-poppins text-sm leading-6 text-slate-600">{project.description}</p>
-                                    <p className="mt-5 inline-flex items-center gap-2 font-poppins text-sm font-semibold text-blue-600 group-hover:text-blue-800">
-                                        Kunjungi website
-                                        <ExternalLink className="h-4 w-4" />
-                                    </p>
+            {/* ===== About Me Section ===== */}
+            <section className="py-12 bg-white">
+                <div className={`${isVisible ? 'fade-in' : 'opacity-0'} container mx-auto px-6 max-w-4xl`}>
+                    <div className="text-center">
+                        <h2 className="text-3xl md:text-4xl font-bold mb-6" style={{ color: '#007BFF' }}>
+                            Tentang Saya
+                        </h2>
+                        <p className="text-base md:text-lg text-gray-700 leading-relaxed">
+                            Halo! Saya <span className="font-semibold" style={{ color: '#007BFF' }}>Anugraha Galih Saputra</span>, 
+                            mahasiswa <span className="font-semibold">UPN "Veteran" Yogyakarta</span> yang memiliki passion mendalam 
+                            dalam dunia <span className="font-semibold" style={{ color: '#007BFF' }}>Web Development</span> dan{' '}
+                            <span className="font-semibold" style={{ color: '#007BFF' }}>Mobile Development</span>. 
+                            Saya terus mengasah kemampuan untuk menciptakan solusi digital yang inovatif dan user-friendly, 
+                            dengan harapan dapat berkontribusi dalam membangun teknologi yang bermanfaat bagi banyak orang.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            {/* ===== Sosmed Section ===== */}
+            <section id="sosmed" className="py-10 bg-gray-50">
+                <div className={`${isVisible ? 'fade-in' : 'opacity-0'} container mx-auto px-6`}>
+                    <div className="flex justify-center gap-6 flex-wrap">
+                        <a href="https://www.instagram.com/anugraha_gs?igsh=MWR5d2Q5eXd5aW53NA=="
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-3 px-8 py-4 bg-white rounded-full shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105"
+                            style={{ border: '2px solid #007BFF' }}>
+                            <Instagram className="w-6 h-6" style={{ color: '#007BFF' }} />
+                            <span className="font-medium" style={{ color: '#007BFF' }}>Instagram</span>
+                        </a>
+
+                        <a href="https://wa.me/6285702055011"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-3 px-8 py-4 bg-white rounded-full shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105"
+                            style={{ border: '2px solid #007BFF' }}>
+                            <MessageCircle className="w-6 h-6" style={{ color: '#007BFF' }} />
+                            <span className="font-medium" style={{ color: '#007BFF' }}>WhatsApp</span>
+                        </a>
+
+                        <a href="https://www.linkedin.com/in/Anugraha-Galih-Saputra"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-3 px-8 py-4 bg-white rounded-full shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105"
+                            style={{ border: '2px solid #007BFF' }}>
+                            <Linkedin className="w-6 h-6" style={{ color: '#007BFF' }} />
+                            <span className="font-medium" style={{ color: '#007BFF' }}>LinkedIn</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            {/* ===== Portfolio Section ===== */}
+            <section id="portfolio" className="py-16 bg-white">
+                <div className="container mx-auto px-6">
+                    <h2 className="text-4xl md:text-5xl font-bold text-center mb-12" style={{ color: '#007BFF' }}>
+                        Portfolio
+                    </h2>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {projects.map((project, index) => (
+                            <div key={index} className="bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:scale-105">
+                                <div className="relative overflow-hidden h-48">
+                                    <img
+                                        src={project.image}
+                                        alt={project.title}
+                                        className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                                    />
                                 </div>
-                            </a>
+                                <div className="p-6">
+                                    <h3 className="text-xl font-bold mb-2" style={{ color: '#007BFF' }}>
+                                        {project.title}
+                                    </h3>
+                                    <p className="text-gray-600 mb-4">
+                                        {project.description}
+                                    </p>
+                                    <a href={project.link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-white transition-all duration-300 hover:shadow-lg"
+                                        style={{ backgroundColor: '#007BFF' }}>
+                                        <span>View Project</span>
+                                        <ExternalLink className="w-4 h-4" />
+                                    </a>
+                                </div>
+                            </div>
                         ))}
                     </div>
                 </div>
             </section>
 
-            <section id="sosmed" className="py-10 bg-gray-50">
-                <div className={`${isVisible ? "fade-in" : "opacity-0"} container mx-auto px-6`}>
-                    <div className="flex justify-center gap-6 flex-wrap">
-                        <a
-                            href="https://www.instagram.com/anugraha_gs?igsh=MWR5d2Q5eXd5aW53NA=="
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-3 px-8 py-4 bg-white rounded-full shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105"
-                            style={{ border: "2px solid #007BFF" }}
-                        >
-                            <Instagram className="w-6 h-6" style={{ color: "#007BFF" }} />
-                            <span className="font-medium" style={{ color: "#007BFF" }}>Instagram</span>
-                        </a>
-
-                        <a
-                            href="https://wa.me/6285702055011"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-3 px-8 py-4 bg-white rounded-full shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105"
-                            style={{ border: "2px solid #007BFF" }}
-                        >
-                            <MessageCircle className="w-6 h-6" style={{ color: "#007BFF" }} />
-                            <span className="font-medium" style={{ color: "#007BFF" }}>WhatsApp</span>
-                        </a>
-
-                        <a
-                            href="https://www.linkedin.com/in/Anugraha-Galih-Saputra"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-3 px-8 py-4 bg-white rounded-full shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105"
-                            style={{ border: "2px solid #007BFF" }}
-                        >
-                            <Linkedin className="w-6 h-6" style={{ color: "#007BFF" }} />
-                            <span className="font-medium" style={{ color: "#007BFF" }}>LinkedIn</span>
-                        </a>
-                    </div>
-                </div>
-            </section>
-
+            {/* ===== Footer ===== */}
             <footer className="py-8 bg-white border-t border-gray-200">
                 <div className="container mx-auto px-6 text-center">
-                    <p className="text-sm" style={{ color: "#007BFF" }}>
-                        &copy; 2025 Anugraha Galih Saputra. All rights reserved.
+                    <p className="text-sm" style={{ color: '#007BFF' }}>
+                        © 2025 Anugraha Galih Saputra. All rights reserved.
                     </p>
                 </div>
             </footer>
