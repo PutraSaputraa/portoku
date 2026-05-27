@@ -135,7 +135,7 @@ function Dashboard() {
                                 </button>
                             </div>
                             <div className="mt-10 grid grid-cols-3 gap-3 max-w-lg">
-                                {["Responsive", "React", "Tailwind"].map((skill) => (
+                                {["WEB", "Mobile App", "Machine Learning"].map((skill) => (
                                     <div key={skill} className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-3 text-center text-xs font-bold text-slate-700 sm:text-sm">
                                         {skill}
                                     </div>
@@ -144,20 +144,25 @@ function Dashboard() {
                         </div>
 
                         <div className={`${isVisible ? "fade-in-up delay-short" : "opacity-0"} order-1 lg:order-2`}>
-                            <div className="relative mx-auto aspect-[4/5] w-full max-w-sm sm:max-w-md lg:max-w-lg">
-                                <div className="absolute inset-0 rounded-lg bg-blue-100"></div>
-                                <img
-                                    src="/images/fotogua.png"
-                                    alt="Anugraha Galih Saputra"
-                                    className="absolute inset-x-4 bottom-0 z-10 h-[92%] w-[calc(100%-2rem)] object-contain fade-mask sm:inset-x-8 sm:w-[calc(100%-4rem)]"
-                                />
-                                <div className="absolute left-0 top-6 z-20 rounded-lg border border-slate-200 bg-white px-4 py-3 shadow-xl">
-                                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">Based in</p>
-                                    <p className="font-poppins text-lg font-bold text-slate-950">Yogyakarta</p>
-                                </div>
-                                <div className="absolute bottom-8 right-0 z-20 rounded-lg border border-blue-100 bg-white px-4 py-3 shadow-xl">
-                                    <p className="font-poppins text-2xl font-bold text-blue-600">3</p>
-                                    <p className="text-xs font-semibold text-slate-500">Featured Projects</p>
+                            <div className="mx-auto w-full max-w-sm sm:max-w-md lg:max-w-lg">
+                                <div className="rounded-lg border border-slate-200 bg-white p-3 shadow-2xl shadow-slate-200/70">
+                                    <div className="relative overflow-hidden rounded-md bg-gradient-to-b from-slate-100 to-blue-50">
+                                        <img
+                                            src="/images/fotogua.png"
+                                            alt="Anugraha Galih Saputra"
+                                            className="mx-auto aspect-[4/5] w-full object-contain object-bottom fade-mask"
+                                        />
+                                    </div>
+                                    <div className="flex flex-col gap-3 px-1 pt-4 sm:flex-row sm:items-center sm:justify-between">
+                                        <div>
+                                            <p className="font-poppins text-lg font-bold text-slate-950">Anugraha Galih Saputra</p>
+                                            <p className="text-sm font-medium text-slate-500">Web Developer from Yogyakarta</p>
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <span className="rounded-full bg-blue-50 px-3 py-2 text-xs font-bold text-blue-700">React</span>
+                                            <span className="rounded-full bg-emerald-50 px-3 py-2 text-xs font-bold text-emerald-700">UI/UX</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
