@@ -159,8 +159,6 @@ function Dashboard() {
                                             <p className="text-sm font-medium text-slate-500">Web Developer from Yogyakarta</p>
                                         </div>
                                         <div className="flex gap-2">
-                                            <span className="rounded-full bg-blue-50 px-3 py-2 text-xs font-bold text-blue-700">React</span>
-                                            <span className="rounded-full bg-emerald-50 px-3 py-2 text-xs font-bold text-emerald-700">UI/UX</span>
                                         </div>
                                     </div>
                                 </div>
