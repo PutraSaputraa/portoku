@@ -55,7 +55,7 @@ function Dashboard() {
             description: "Web Perusahaan FinDive",
             image: "/images/webfindive.png",
             link: "https://findives.netlify.app/"
-        }
+        },
         {
             title: "Portfolio CMS",
             description: "Content management system for creative professionals",
