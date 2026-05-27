@@ -51,34 +51,16 @@ function Dashboard() {
             link: "https://dusuntegalurung.netlify.app/"
         },
         {
+            title: "Web FinDive",
+            description: "Web Perusahaan FinDive",
+            image: "/images/webfindive.png",
+            link: "https://findives.netlify.app/"
+        }
+        {
             title: "Portfolio CMS",
             description: "Content management system for creative professionals",
-            image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop",
-            link: "#"
-        },
-        {
-            title: "Task Manager App",
-            description: "Collaborative productivity tool with real-time updates",
-            image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=400&h=250&fit=crop",
-            link: "#"
-        },
-        {
-            title: "Restaurant Booking",
-            description: "Reservation system with menu showcase and table management",
-            image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=250&fit=crop",
-            link: "#"
-        },
-        {
-            title: "Fitness Tracker",
-            description: "Health monitoring dashboard with progress visualization",
-            image: "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=400&h=250&fit=crop",
-            link: "#"
-        },
-        {
-            title: "Blog Platform",
-            description: "Modern blogging system with markdown support",
-            image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=400&h=250&fit=crop",
-            link: "#"
+            image: "/images/webduatduit.png",
+            link: "https://duatduit.netlify.app/"
         }
     ];
 
