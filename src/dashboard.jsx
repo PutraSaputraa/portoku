@@ -32,14 +32,6 @@ const ExternalLink = ({ className }) => (
 
 const projects = [
     {
-        title: "Web Dusun Tegalurung",
-        description: "Website profil dusun dengan informasi utama, dokumentasi, dan tampilan publik yang mudah dibaca.",
-        image: "/images/webtegalurung.png",
-        link: "https://dusuntegalurung.netlify.app/",
-        accent: "border-emerald-200",
-        label: "Community Web",
-    },
-    {
         title: "Findive",
         description: "Website perusahaan dengan presentasi layanan yang bersih, visual, dan langsung ke kebutuhan pengunjung.",
         image: "/images/webfindive.png",
@@ -92,7 +84,7 @@ function Dashboard() {
             <nav className="sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur">
                 <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
                     <button onClick={() => scrollToSection("profile")} className="font-poppins text-sm font-bold text-slate-950 sm:text-base">
-                        Anugraha GS
+                        Saputra
                     </button>
                     <div className="flex items-center gap-1 rounded-full border border-slate-200 bg-white p-1 shadow-sm">
                         {["profile", "portfolio", "contact"].map((item) => (
@@ -181,21 +173,6 @@ function Dashboard() {
                     </div>
                 </section>
 
-                <section className="bg-white px-4 py-16 sm:px-6">
-                    <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-                        <div>
-                            <p className="font-poppins text-sm font-bold uppercase tracking-[0.2em] text-blue-600">Academy</p>
-                            <h2 className="mt-3 font-poppins text-4xl font-bold text-slate-950">SMAN 7 Yogyakarta</h2>
-                            <p className="mt-5 text-base leading-8 text-slate-600">
-                                Bagian pendidikan dibuat lebih sederhana agar tetap terbaca jelas dan tidak menabrak elemen lain di mobile.
-                            </p>
-                        </div>
-                        <div className="overflow-hidden rounded-lg border border-slate-200 bg-slate-100 shadow-sm">
-                            <img src="/images/fotosma7.png" alt="SMAN 7 Yogyakarta" className="aspect-[16/10] w-full object-cover" />
-                        </div>
-                    </div>
-                </section>
-
                 <section id="portfolio" className="bg-slate-50 px-4 py-16 sm:px-6">
                     <div className="mx-auto max-w-6xl">
                         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
@@ -204,7 +181,6 @@ function Dashboard() {
                                 <h2 className="mt-3 font-poppins text-4xl font-bold text-slate-950 sm:text-5xl">Portfolio</h2>
                             </div>
                             <p className="max-w-xl text-base leading-7 text-slate-600">
-                                Tiga project utama yang ditampilkan tanpa dummy content, lengkap dengan preview dan link langsung.
                             </p>
                         </div>
 
