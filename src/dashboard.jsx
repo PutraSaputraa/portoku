@@ -52,7 +52,7 @@ const projects = [
         type: "Company Profile",
         stack: ["React", "Tailwind CSS", "Netlify"],
         summary: "Findive dibuat sebagai website company profile yang menampilkan identitas, layanan, dan nilai perusahaan dengan alur baca yang jelas. Halamannya dirancang agar pengunjung cepat memahami fokus bisnis dan mudah menuju informasi penting.",
-        impact: "Website ini membantu presentasi layanan terlihat lebih profesional, mengurangi kebingungan pengunjung baru, dan memberi kanal digital yang siap dibagikan ke calon klien maupun partner.",
+        impact: "Project ini menjadi pengalaman pertama saya mendapatkan client secara langsung. Dari proses ini saya belajar berinteraksi dengan client, menggali keluhan dan kebutuhan mereka, lalu menerjemahkannya menjadi solusi website yang lebih jelas, terarah, dan sesuai masalah yang ingin diselesaikan.",
     },
     {
         slug: "open-cave-trip",
@@ -67,7 +67,7 @@ const projects = [
         type: "Open Trip Web Application",
         stack: ["React", "Tailwind CSS", "Admin Page", "Worker Page", "Netlify"],
         summary: "Open Cave Trip berisi katalog perjalanan yang menampilkan destinasi, informasi jadwal, harga, dan alur pendaftaran secara ringkas. Project ini juga memiliki page admin untuk mengelola data trip serta page worker untuk membantu proses operasional di sisi petugas.",
-        impact: "Pengalaman pemesanan menjadi lebih tertata karena informasi utama tersedia dalam satu tempat. Adanya page admin dan worker membantu pengelolaan trip lebih rapi, mempercepat proses tanya-jawab, dan membuat brand perjalanan terasa lebih siap menerima peserta.",
+        impact: "Project ini memberi saya pengalaman menangani kebutuhan client yang lebih kompleks. Saya belajar merancang sistem pemesanan online langsung dari website, page worker untuk mengambil job pada setiap open trip, serta page admin untuk membuat jadwal, menyetujui pelanggan yang dapat mengikuti trip, dan membagikan job kepada para worker.",
     },
     {
         slug: "duatduit",
@@ -82,7 +82,7 @@ const projects = [
         type: "Financial Web App",
         stack: ["React", "Tailwind CSS", "Dashboard UI", "Netlify"],
         summary: "DuatDuit adalah aplikasi web finansial yang menekankan tampilan sederhana dan informasi yang mudah dipindai. Struktur antarmukanya dibuat agar pengguna bisa memahami kondisi finansial tanpa merasa terbebani oleh tampilan yang terlalu rumit.",
-        impact: "Aplikasi ini membantu pengguna membaca informasi finansial dengan lebih cepat, menjaga fokus pada data penting, dan memberi pengalaman dashboard yang ringan untuk penggunaan berulang.",
+        impact: "Melalui project ini saya belajar proses deployment website dan memahami cara mengintegrasikan aplikasi web dengan database Firebase. Pengalaman ini membantu saya melihat bagaimana data, tampilan, dan hosting saling terhubung dalam sebuah produk web yang bisa digunakan secara nyata.",
     },
 ];
 
@@ -191,7 +191,7 @@ function Dashboard() {
                             </div>
                         </div>
 
-                        <div className={`${isVisible ? "fade-in-up delay-short" : "opacity-0"} order-1 lg:order-2`}>
+                        <div className={`${isVisible ? "fade-in-up delay-short" : "opacity-0"} order-1 lg:order-2 lg:-mt-8`}>
                             <div className="mx-auto w-full max-w-sm sm:max-w-md lg:max-w-lg">
                                 <div className="rounded-lg border border-slate-200 bg-white p-3 shadow-2xl shadow-slate-200/70">
                                     <div className="relative overflow-hidden rounded-md bg-gradient-to-b from-slate-100 to-blue-50">
