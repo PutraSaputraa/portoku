@@ -107,6 +107,24 @@ const socials = [
     },
 ];
 
+const certifications = [
+    {
+        title: "Sertifikasi Kompetensi Sains Data",
+        images: ["/images/Sertifikasi Kompetensi Sains Data1.jpeg", "/images/Sertifikasi Kompetensi Sains Data2.jpeg"],
+        summary: "Sertifikasi ini berfokus pada kompetensi dasar hingga praktik dalam bidang sains data. Materinya mencakup tahapan kerja data science, pengolahan data, pemodelan, dan evaluasi hasil agar data dapat digunakan sebagai dasar pengambilan keputusan yang lebih terukur.",
+        personalImpact: "Sertifikasi Data Science ini membantu saya mempelajari proses pengolahan data secara menyeluruh, mulai dari mengumpulkan, menelaah, memvalidasi, menentukan objek data, membersihkan data, mengonstruksi data, menentukan label data, membangun model, hingga mengevaluasi hasil pemodelan. Dalam prosesnya, saya juga menggunakan Python sebagai tools utama untuk mengolah dan menganalisis data secara lebih terstruktur.",
+    },
+];
+
+const achievements = [
+    {
+        title: "Lomba Desain Rancangan Aplikasi",
+        image: "/images/Lomba Desain Rancangan Aplikasi 2021.jpeg",
+        summary: "Kompetisi ini berfokus pada penyusunan konsep dan rancangan aplikasi, mulai dari identifikasi masalah, perancangan solusi, desain alur penggunaan, hingga penyampaian ide dalam bentuk presentasi. Kegiatan ini menjadi ruang untuk menguji kemampuan berpikir produk dan komunikasi visual.",
+        personalImpact: "Lomba desain/rancangan aplikasi ini merupakan kompetisi pertama yang saya ikuti. Melalui lomba ini, saya belajar mendesain dan merancang aplikasi, bekerja sama dalam tim yang terdiri dari tiga orang, serta mengasah kemampuan presentasi dalam menyampaikan ide dan konsep aplikasi secara jelas.",
+    },
+];
+
 function Dashboard() {
     const [isVisible, setIsVisible] = useState(false);
 
@@ -246,6 +264,78 @@ function Dashboard() {
                                             <p className="mt-5 text-sm font-bold text-blue-600">Lihat detail project</p>
                                         </div>
                                     </Link>
+                                </article>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                <section id="certification" className="bg-white px-4 py-16 sm:px-6">
+                    <div className="mx-auto max-w-6xl">
+                        <div>
+                            <p className="font-poppins text-sm font-bold uppercase tracking-[0.2em] text-emerald-600">Certification</p>
+                            <h2 className="mt-3 font-poppins text-4xl font-bold text-slate-950 sm:text-5xl">Sertifikasi</h2>
+                        </div>
+
+                        <div className="mt-10 grid gap-8">
+                            {certifications.map((item) => (
+                                <article key={item.title} className="grid gap-6 lg:grid-cols-[1fr_0.9fr] lg:items-start">
+                                    <div className="grid gap-4 sm:grid-cols-2">
+                                        {item.images.map((image, index) => (
+                                            <div key={image} className="overflow-hidden rounded-lg border border-slate-200 bg-white">
+                                                <img
+                                                    src={image}
+                                                    alt={`${item.title} ${index + 1}`}
+                                                    className="aspect-[4/3] w-full object-cover object-top"
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div className="p-1 lg:p-3">
+                                        <h3 className="font-poppins text-2xl font-bold text-slate-950">{item.title}</h3>
+                                        <div className="mt-5">
+                                            <h4 className="font-poppins text-lg font-bold text-slate-950">Summary</h4>
+                                            <p className="mt-2 text-base leading-8 text-slate-600">{item.summary}</p>
+                                        </div>
+                                        <div className="mt-5">
+                                            <h4 className="font-poppins text-lg font-bold text-slate-950">Impact kepada saya</h4>
+                                            <p className="mt-2 text-base leading-8 text-slate-600">{item.personalImpact}</p>
+                                        </div>
+                                    </div>
+                                </article>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                <section id="achievement" className="bg-slate-50 px-4 py-16 sm:px-6">
+                    <div className="mx-auto max-w-6xl">
+                        <div>
+                            <p className="font-poppins text-sm font-bold uppercase tracking-[0.2em] text-emerald-600">Achievement</p>
+                            <h2 className="mt-3 font-poppins text-4xl font-bold text-slate-950 sm:text-5xl">Penghargaan dan Prestasi</h2>
+                        </div>
+
+                        <div className="mt-10 grid gap-8">
+                            {achievements.map((item) => (
+                                <article key={item.title} className="grid gap-6 lg:grid-cols-[0.9fr_1fr] lg:items-start">
+                                    <div className="overflow-hidden rounded-lg border border-slate-200 bg-slate-100">
+                                        <img
+                                            src={item.image}
+                                            alt={item.title}
+                                            className="aspect-[4/3] w-full object-cover object-center"
+                                        />
+                                    </div>
+                                    <div className="p-1 lg:p-3">
+                                        <h3 className="font-poppins text-2xl font-bold text-slate-950">{item.title}</h3>
+                                        <div className="mt-5">
+                                            <h4 className="font-poppins text-lg font-bold text-slate-950">Summary</h4>
+                                            <p className="mt-2 text-base leading-8 text-slate-600">{item.summary}</p>
+                                        </div>
+                                        <div className="mt-5">
+                                            <h4 className="font-poppins text-lg font-bold text-slate-950">Impact kepada saya</h4>
+                                            <p className="mt-2 text-base leading-8 text-slate-600">{item.personalImpact}</p>
+                                        </div>
+                                    </div>
                                 </article>
                             ))}
                         </div>
