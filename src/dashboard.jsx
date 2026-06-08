@@ -52,7 +52,8 @@ const projects = [
         type: "Company Profile",
         stack: ["React", "Tailwind CSS", "Netlify"],
         summary: "Findive dibuat sebagai website company profile yang menampilkan identitas, layanan, dan nilai perusahaan dengan alur baca yang jelas. Halamannya dirancang agar pengunjung cepat memahami fokus bisnis dan mudah menuju informasi penting.",
-        impact: "Project ini menjadi pengalaman pertama saya mendapatkan client secara langsung. Dari proses ini saya belajar berinteraksi dengan client, menggali keluhan dan kebutuhan mereka, lalu menerjemahkannya menjadi solusi website yang lebih jelas, terarah, dan sesuai masalah yang ingin diselesaikan.",
+        impact: "Website ini membantu presentasi layanan terlihat lebih profesional, mengurangi kebingungan pengunjung baru, dan memberi kanal digital yang siap dibagikan ke calon klien maupun partner.",
+        personalImpact: "Project ini menjadi pengalaman pertama saya mendapatkan client secara langsung. Dari proses ini saya belajar berinteraksi dengan client, menggali keluhan dan kebutuhan mereka, lalu menerjemahkannya menjadi solusi website yang lebih jelas, terarah, dan sesuai masalah yang ingin diselesaikan.",
     },
     {
         slug: "open-cave-trip",
@@ -67,7 +68,8 @@ const projects = [
         type: "Open Trip Web Application",
         stack: ["React", "Tailwind CSS", "Admin Page", "Worker Page", "Netlify"],
         summary: "Open Cave Trip berisi katalog perjalanan yang menampilkan destinasi, informasi jadwal, harga, dan alur pendaftaran secara ringkas. Project ini juga memiliki page admin untuk mengelola data trip serta page worker untuk membantu proses operasional di sisi petugas.",
-        impact: "Project ini memberi saya pengalaman menangani kebutuhan client yang lebih kompleks. Saya belajar merancang sistem pemesanan online langsung dari website, page worker untuk mengambil job pada setiap open trip, serta page admin untuk membuat jadwal, menyetujui pelanggan yang dapat mengikuti trip, dan membagikan job kepada para worker.",
+        impact: "Pengalaman pemesanan menjadi lebih tertata karena informasi utama tersedia dalam satu tempat. Adanya page admin dan worker membantu pengelolaan trip lebih rapi, mempercepat proses operasional, dan membuat layanan open trip lebih siap menerima peserta.",
+        personalImpact: "Project ini memberi saya pengalaman menangani kebutuhan client yang lebih kompleks. Saya belajar merancang sistem pemesanan online langsung dari website, page worker untuk mengambil job pada setiap open trip, serta page admin untuk membuat jadwal, menyetujui pelanggan yang dapat mengikuti trip, dan membagikan job kepada para worker.",
     },
     {
         slug: "duatduit",
@@ -82,7 +84,8 @@ const projects = [
         type: "Financial Web App",
         stack: ["React", "Tailwind CSS", "Dashboard UI", "Netlify"],
         summary: "DuatDuit adalah aplikasi web finansial yang menekankan tampilan sederhana dan informasi yang mudah dipindai. Struktur antarmukanya dibuat agar pengguna bisa memahami kondisi finansial tanpa merasa terbebani oleh tampilan yang terlalu rumit.",
-        impact: "Melalui project ini saya belajar proses deployment website dan memahami cara mengintegrasikan aplikasi web dengan database Firebase. Pengalaman ini membantu saya melihat bagaimana data, tampilan, dan hosting saling terhubung dalam sebuah produk web yang bisa digunakan secara nyata.",
+        impact: "Aplikasi ini membantu pengguna membaca informasi finansial dengan lebih cepat, menjaga fokus pada data penting, dan memberi pengalaman dashboard yang ringan untuk penggunaan berulang.",
+        personalImpact: "Melalui project ini saya belajar proses deployment website dan memahami cara mengintegrasikan aplikasi web dengan database Firebase. Pengalaman ini membantu saya melihat bagaimana data, tampilan, dan hosting saling terhubung dalam sebuah produk web yang bisa digunakan secara nyata.",
     },
 ];
 
@@ -369,6 +372,11 @@ function ProjectDetail() {
                             <div className="mt-7">
                                 <h2 className="font-poppins text-2xl font-bold text-slate-950">Impact</h2>
                                 <p className="mt-3 text-base leading-8 text-slate-600">{project.impact}</p>
+                            </div>
+
+                            <div className="mt-7">
+                                <h2 className="font-poppins text-2xl font-bold text-slate-950">Impact kepada saya</h2>
+                                <p className="mt-3 text-base leading-8 text-slate-600">{project.personalImpact}</p>
                             </div>
 
                             <div className="mt-8 flex flex-col gap-3 sm:flex-row lg:flex-col">
