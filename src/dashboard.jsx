@@ -53,7 +53,7 @@ const projects = [
         stack: ["React", "Tailwind CSS", "Netlify"],
         summary: "Findive dibuat sebagai website company profile yang menampilkan identitas, layanan, dan nilai perusahaan dengan alur baca yang jelas. Halamannya dirancang agar pengunjung cepat memahami fokus bisnis dan mudah menuju informasi penting.",
         impact: "Website ini membantu presentasi layanan terlihat lebih profesional, mengurangi kebingungan pengunjung baru, dan memberi kanal digital yang siap dibagikan ke calon klien maupun partner.",
-        personalImpact: "Project ini menjadi pengalaman pertama saya mendapatkan client secara langsung. Dari proses ini saya belajar berinteraksi dengan client, menggali keluhan dan kebutuhan mereka, lalu menerjemahkannya menjadi solusi website yang lebih jelas, terarah, dan sesuai masalah yang ingin diselesaikan.",
+        personalImpact: "Proyek ini menjadi pengalaman pertama saya dalam mendapatkan klien secara langsung. Melalui proses ini, saya belajar berinteraksi dengan klien, menggali keluhan serta kebutuhan mereka, kemudian menerjemahkannya menjadi solusi website yang lebih jelas, terarah, dan sesuai dengan masalah yang ingin diselesaikan.",
     },
     {
         slug: "open-cave-trip",
@@ -69,7 +69,7 @@ const projects = [
         stack: ["React", "Tailwind CSS", "Admin Page", "Worker Page", "Netlify"],
         summary: "Open Cave Trip berisi katalog perjalanan yang menampilkan destinasi, informasi jadwal, harga, dan alur pendaftaran secara ringkas. Project ini juga memiliki page admin untuk mengelola data trip serta page worker untuk membantu proses operasional di sisi petugas.",
         impact: "Pengalaman pemesanan menjadi lebih tertata karena informasi utama tersedia dalam satu tempat. Adanya page admin dan worker membantu pengelolaan trip lebih rapi, mempercepat proses operasional, dan membuat layanan open trip lebih siap menerima peserta.",
-        personalImpact: "Project ini memberi saya pengalaman menangani kebutuhan client yang lebih kompleks. Saya belajar merancang sistem pemesanan online langsung dari website, page worker untuk mengambil job pada setiap open trip, serta page admin untuk membuat jadwal, menyetujui pelanggan yang dapat mengikuti trip, dan membagikan job kepada para worker.",
+        personalImpact: "Proyek ini memberikan saya pengalaman dalam menangani kebutuhan klien yang lebih kompleks. Dalam proyek ini, saya belajar merancang sistem pemesanan online langsung melalui website, membuat halaman worker untuk mengambil job pada setiap open trip, serta mengembangkan halaman admin untuk membuat jadwal, menyetujui pelanggan yang dapat mengikuti trip, dan membagikan job kepada para worker.",
     },
     {
         slug: "duatduit",
@@ -85,7 +85,7 @@ const projects = [
         stack: ["React", "Tailwind CSS", "Dashboard UI", "Netlify"],
         summary: "DuatDuit adalah aplikasi web finansial yang menekankan tampilan sederhana dan informasi yang mudah dipindai. Struktur antarmukanya dibuat agar pengguna bisa memahami kondisi finansial tanpa merasa terbebani oleh tampilan yang terlalu rumit.",
         impact: "Aplikasi ini membantu pengguna membaca informasi finansial dengan lebih cepat, menjaga fokus pada data penting, dan memberi pengalaman dashboard yang ringan untuk penggunaan berulang.",
-        personalImpact: "Melalui project ini saya belajar proses deployment website dan memahami cara mengintegrasikan aplikasi web dengan database Firebase. Pengalaman ini membantu saya melihat bagaimana data, tampilan, dan hosting saling terhubung dalam sebuah produk web yang bisa digunakan secara nyata.",
+        personalImpact: "Melalui proyek ini, saya belajar proses deployment website serta memahami cara mengintegrasikan aplikasi web dengan database Firebase. Pengalaman ini membantu saya memahami bagaimana data, tampilan, dan hosting saling terhubung dalam sebuah produk web yang dapat digunakan secara nyata.",
     },
 ];
 
