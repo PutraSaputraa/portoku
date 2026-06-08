@@ -1,3 +1,4 @@
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const Instagram = ({ className }) => (
@@ -30,22 +31,58 @@ const ExternalLink = ({ className }) => (
     </svg>
 );
 
+const ArrowLeft = ({ className }) => (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+    </svg>
+);
+
 const projects = [
     {
+        slug: "findive",
         title: "Findive",
         description: "Website perusahaan dengan presentasi layanan yang bersih, visual, dan langsung ke kebutuhan pengunjung.",
-        image: "/images/webfindive.png",
+        image: "/images/Findive1.png",
+        images: ["/images/Findive1.png", "/images/Findive2.png", "/images/Findive3.png"],
         link: "https://findives.netlify.app/",
         accent: "border-blue-200",
         label: "Company Profile",
+        year: "2025",
+        type: "Company Profile",
+        stack: ["React", "Tailwind CSS", "Netlify"],
+        summary: "Findive dibuat sebagai website company profile yang menampilkan identitas, layanan, dan nilai perusahaan dengan alur baca yang jelas. Halamannya dirancang agar pengunjung cepat memahami fokus bisnis dan mudah menuju informasi penting.",
+        impact: "Website ini membantu presentasi layanan terlihat lebih profesional, mengurangi kebingungan pengunjung baru, dan memberi kanal digital yang siap dibagikan ke calon klien maupun partner.",
     },
     {
-        title: "Duat Duit",
-        description: "Aplikasi web finansial dengan fokus pada pengalaman yang ringkas dan mudah dipahami.",
-        image: "/images/webduatduit.png",
-        link: "https://duatduit.netlify.app/",
+        slug: "open-cave-trip",
+        title: "Open Cave Trip",
+        description: "Website open trip dengan katalog perjalanan yang rapi, informatif, dan memudahkan pengunjung melihat destinasi, jadwal, harga, serta melakukan pendaftaran secara online.",
+        image: "/images/OpenCaveTrip1.png",
+        images: ["/images/OpenCaveTrip1.png", "/images/OpenCaveTrip2.png", "/images/OpenCaveTrip3.png"],
+        link: "https://opentripzaza.netlify.app/",
         accent: "border-amber-200",
+        label: "Open Trip Web Application",
+        year: "2025",
+        type: "Open Trip Web Application",
+        stack: ["React", "Tailwind CSS", "Responsive UI", "Netlify"],
+        summary: "Open Cave Trip berisi katalog perjalanan yang menampilkan destinasi, informasi jadwal, harga, dan alur pendaftaran secara ringkas. Fokus utamanya adalah membuat calon peserta bisa membandingkan pilihan trip tanpa harus banyak bertanya dulu.",
+        impact: "Pengalaman pemesanan menjadi lebih tertata karena informasi utama tersedia dalam satu tempat. Ini membantu promosi trip, mempercepat proses tanya-jawab, dan membuat brand perjalanan terasa lebih siap menerima peserta.",
+    },
+    {
+        slug: "duatduit",
+        title: "DuatDuit",
+        description: "Aplikasi web finansial dengan fokus pada pengalaman yang ringkas dan mudah dipahami.",
+        image: "/images/duatduit1.png",
+        images: ["/images/duatduit1.png", "/images/duatduit2.png", "/images/duatduit3.png"],
+        link: "https://duatduit.netlify.app/",
+        accent: "border-blue-200",
         label: "Web App",
+        year: "2025",
+        type: "Financial Web App",
+        stack: ["React", "Tailwind CSS", "Dashboard UI", "Netlify"],
+        summary: "DuatDuit adalah aplikasi web finansial yang menekankan tampilan sederhana dan informasi yang mudah dipindai. Struktur antarmukanya dibuat agar pengguna bisa memahami kondisi finansial tanpa merasa terbebani oleh tampilan yang terlalu rumit.",
+        impact: "Aplikasi ini membantu pengguna membaca informasi finansial dengan lebih cepat, menjaga fokus pada data penting, dan memberi pengalaman dashboard yang ringan untuk penggunaan berulang.",
     },
 ];
 
@@ -187,7 +224,7 @@ function Dashboard() {
                         <div className="mt-10 grid gap-6 lg:grid-cols-3">
                             {projects.map((project) => (
                                 <article key={project.link} className={`overflow-hidden rounded-lg border ${project.accent} bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl`}>
-                                    <a href={project.link} target="_blank" rel="noopener noreferrer" className="group block">
+                                    <Link to={`/project/${project.slug}`} className="group block">
                                         <div className="overflow-hidden bg-slate-100">
                                             <img src={project.image} alt={project.title} className="aspect-[16/11] w-full object-cover object-top transition duration-500 group-hover:scale-105" />
                                         </div>
@@ -198,9 +235,9 @@ function Dashboard() {
                                             </div>
                                             <h3 className="mt-4 font-poppins text-2xl font-bold text-slate-950">{project.title}</h3>
                                             <p className="mt-3 text-sm leading-6 text-slate-600">{project.description}</p>
-                                            <p className="mt-5 text-sm font-bold text-blue-600">Buka project</p>
+                                            <p className="mt-5 text-sm font-bold text-blue-600">Lihat detail project</p>
                                         </div>
-                                    </a>
+                                    </Link>
                                 </article>
                             ))}
                         </div>
@@ -240,4 +277,120 @@ function Dashboard() {
     );
 }
 
+function ProjectDetail() {
+    const { slug } = useParams();
+    const navigate = useNavigate();
+    const project = projects.find((item) => item.slug === slug);
+
+    if (!project) {
+        return (
+            <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4 text-slate-900">
+                <div className="max-w-md text-center">
+                    <p className="font-poppins text-sm font-bold uppercase tracking-[0.2em] text-emerald-600">Project</p>
+                    <h1 className="mt-3 font-poppins text-4xl font-bold text-slate-950">Project tidak ditemukan</h1>
+                    <button
+                        onClick={() => navigate("/")}
+                        className="mt-8 inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-700"
+                    >
+                        <ArrowLeft className="h-5 w-5" />
+                        Kembali ke dashboard
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div className="min-h-screen bg-slate-50 text-slate-900">
+            <nav className="sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur">
+                <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
+                    <button onClick={() => navigate("/")} className="font-poppins text-sm font-bold text-slate-950 sm:text-base">
+                        Saputra
+                    </button>
+                    <button
+                        onClick={() => navigate("/")}
+                        className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-bold text-slate-800 transition hover:border-blue-300 hover:text-blue-700"
+                    >
+                        <ArrowLeft className="h-4 w-4" />
+                        Dashboard
+                    </button>
+                </div>
+            </nav>
+
+            <main className="px-4 py-10 sm:px-6 lg:py-14">
+                <section className="mx-auto max-w-6xl">
+                    <p className="font-poppins text-sm font-bold uppercase tracking-[0.2em] text-emerald-600">{project.label}</p>
+                    <h1 className="mt-3 font-poppins text-4xl font-bold leading-tight text-slate-950 sm:text-5xl lg:text-6xl">{project.title}</h1>
+                    <div className="mt-5 flex flex-wrap gap-2">
+                        {project.stack.map((item) => (
+                            <span key={item} className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-bold text-slate-600 shadow-sm">
+                                {item}
+                            </span>
+                        ))}
+                    </div>
+                </section>
+
+                <section className="mx-auto mt-10 grid max-w-6xl gap-8 lg:grid-cols-[1fr_0.95fr] lg:items-start">
+                    <div className="grid gap-4">
+                        {project.images.map((image, index) => (
+                            <div key={image} className={`overflow-hidden rounded-lg border ${project.accent} bg-white shadow-sm`}>
+                                <img
+                                    src={image}
+                                    alt={`${project.title} tampilan ${index + 1}`}
+                                    className="aspect-[16/10] w-full object-cover object-top"
+                                />
+                            </div>
+                        ))}
+                    </div>
+
+                    <aside className="lg:sticky lg:top-24">
+                        <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+                            <div className="grid grid-cols-2 gap-3">
+                                <div className="rounded-lg bg-slate-50 p-4">
+                                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">Tahun Project</p>
+                                    <p className="mt-2 font-poppins text-2xl font-bold text-slate-950">{project.year}</p>
+                                </div>
+                                <div className="rounded-lg bg-slate-50 p-4">
+                                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">Type</p>
+                                    <p className="mt-2 font-poppins text-xl font-bold text-slate-950">{project.type}</p>
+                                </div>
+                            </div>
+
+                            <div className="mt-7">
+                                <h2 className="font-poppins text-2xl font-bold text-slate-950">Summary</h2>
+                                <p className="mt-3 text-base leading-8 text-slate-600">{project.summary}</p>
+                            </div>
+
+                            <div className="mt-7">
+                                <h2 className="font-poppins text-2xl font-bold text-slate-950">Impact</h2>
+                                <p className="mt-3 text-base leading-8 text-slate-600">{project.impact}</p>
+                            </div>
+
+                            <div className="mt-8 flex flex-col gap-3 sm:flex-row lg:flex-col">
+                                <a
+                                    href={project.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-700"
+                                >
+                                    Buka link project
+                                    <ExternalLink className="h-5 w-5" />
+                                </a>
+                                <button
+                                    onClick={() => navigate("/")}
+                                    className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-5 py-3 text-sm font-bold text-slate-800 transition hover:border-blue-300 hover:text-blue-700"
+                                >
+                                    <ArrowLeft className="h-5 w-5" />
+                                    Kembali ke dashboard
+                                </button>
+                            </div>
+                        </div>
+                    </aside>
+                </section>
+            </main>
+        </div>
+    );
+}
+
 export default Dashboard;
+export { ProjectDetail };
