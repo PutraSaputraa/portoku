@@ -163,12 +163,31 @@ function Dashboard() {
                                     Hubungi Saya
                                 </button>
                             </div>
-                            <div className="mt-10 grid grid-cols-3 gap-3 max-w-lg">
-                                {["WEB", "Mobile App", "Machine Learning"].map((skill) => (
-                                    <div key={skill} className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-3 text-center text-xs font-bold text-slate-700 sm:text-sm">
-                                        {skill}
-                                    </div>
-                                ))}
+                            <div className="mt-10 grid max-w-2xl gap-3 sm:grid-cols-2">
+                                <div className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3">
+                                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">Universitas</p>
+                                    <p className="mt-1 text-sm font-bold text-slate-800 sm:text-base">UPN "Veteran" Yogyakarta</p>
+                                </div>
+                                <div className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3">
+                                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">Focus</p>
+                                    <p className="mt-1 text-sm font-bold text-slate-800 sm:text-base">Web, Mobile App, Machine Learning</p>
+                                </div>
+                                <a
+                                    href="mailto:anugrahags04@gmail.com"
+                                    className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 transition hover:border-blue-300 hover:bg-blue-50"
+                                >
+                                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">Email</p>
+                                    <p className="mt-1 break-words text-sm font-bold text-slate-800 sm:text-base">anugrahags04@gmail.com</p>
+                                </a>
+                                <a
+                                    href="https://portofoliosaputra.netlify.app/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 transition hover:border-blue-300 hover:bg-blue-50"
+                                >
+                                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">Link</p>
+                                    <p className="mt-1 break-words text-sm font-bold text-slate-800 sm:text-base">portofoliosaputra.netlify.app</p>
+                                </a>
                             </div>
                         </div>
 
@@ -179,7 +198,7 @@ function Dashboard() {
                                         <img
                                             src="/images/fotogua.png"
                                             alt="Anugraha Galih Saputra"
-                                            className="mx-auto aspect-[4/5] w-full object-contain object-bottom fade-mask"
+                                            className="mx-auto aspect-[4/4.6] w-full object-cover object-bottom fade-mask"
                                         />
                                     </div>
                                     <div className="flex flex-col gap-3 px-1 pt-4 sm:flex-row sm:items-center sm:justify-between">
@@ -193,20 +212,6 @@ function Dashboard() {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </section>
-
-                <section className="bg-slate-950 px-4 py-14 text-white sm:px-6">
-                    <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-[0.8fr_1.2fr] md:items-center">
-                        <div>
-                            <p className="font-poppins text-sm font-bold uppercase tracking-[0.2em] text-emerald-300">Tentang Saya</p>
-                            <h2 className="mt-3 font-poppins text-3xl font-bold sm:text-4xl">Membuat interface yang enak dipakai, bukan cuma enak dilihat.</h2>
-                        </div>
-                        <p className="text-base leading-8 text-slate-300 sm:text-lg">
-                            Saya mahasiswa UPN "Veteran" Yogyakarta yang tertarik pada web development dan mobile development.
-                            Dalam project, saya suka membuat struktur yang jelas, tampilan yang konsisten, dan halaman yang tetap nyaman
-                            dipakai di layar kecil maupun besar.
-                        </p>
                     </div>
                 </section>
 
