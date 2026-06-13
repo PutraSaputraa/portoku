@@ -87,6 +87,22 @@ const projects = [
         impact: "Aplikasi ini membantu pengguna membaca informasi finansial dengan lebih cepat, menjaga fokus pada data penting, dan memberi pengalaman dashboard yang ringan untuk penggunaan berulang.",
         personalImpact: "Melalui proyek ini, saya belajar proses deployment website serta memahami cara mengintegrasikan aplikasi web dengan database Firebase. Pengalaman ini membantu saya memahami bagaimana data, tampilan, dan hosting saling terhubung dalam sebuah produk web yang dapat digunakan secara nyata.",
     },
+    {
+        slug: "Skripsi",
+        title: "Klasifikasi Usia Berbasis Citra Wajah dengan CNN dan PSO",
+        description: "Model machine learning untuk mengklasifikasikan kelompok usia dari citra wajah menggunakan CNN yang dioptimasi dengan Particle Swarm Optimization.",
+        image: "/images/skripsi1.png",
+        images: ["/images/skripsi1.png", "/images/skripsi2.png", "/images/skripsi3.png"],
+        link: "-",
+        accent: "border-blue-200",
+        label: "Machine Learning",
+        year: "2026",
+        type: "Machine Learning",
+        stack: ["Python", "TensorFlow", "OpenCV"],
+        summary: "Penelitian ini mengembangkan model klasifikasi usia berbasis citra wajah menggunakan Convolutional Neural Network (CNN) yang dioptimasi dengan Particle Swarm Optimization (PSO). Model diuji pada dua skenario klasifikasi, yaitu 4 kelas dan 5 kelas usia, menggunakan dataset UTKFace Cropped. Optimasi dilakukan pada hyperparameter seperti learning rate, dropout cnn, dropout dense, dan dense units untuk meningkatkan performa model, kemudian hasil model diterapkan ke dalam aplikasi deteksi usia secara realtime.",
+        impact: "Penelitian ini menunjukkan bagaimana optimasi hyperparameter dengan PSO dapat membantu meningkatkan performa model CNN dalam tugas klasifikasi usia. Hasilnya dapat menjadi dasar pengembangan sistem deteksi usia berbasis citra wajah yang lebih adaptif untuk kebutuhan analisis demografi, sistem layanan digital, dan aplikasi berbasis computer vision.",
+        personalImpact: "Melalui proyek ini, saya mempelajari proses pengembangan sistem machine learning secara end-to-end, mulai dari preprocessing citra wajah, perancangan arsitektur CNN, optimasi hyperparameter menggunakan PSO, evaluasi model, hingga implementasi deteksi usia secara realtime. Pengalaman ini memperkuat pemahaman saya tentang hubungan antara data, algoritma, evaluasi, dan penerapan model AI dalam kasus nyata."
+    },
 ];
 
 const socials = [
