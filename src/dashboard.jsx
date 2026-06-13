@@ -103,6 +103,22 @@ const projects = [
         impact: "Penelitian ini menunjukkan bagaimana optimasi hyperparameter dengan PSO dapat membantu meningkatkan performa model CNN dalam tugas klasifikasi usia. Hasilnya dapat menjadi dasar pengembangan sistem deteksi usia berbasis citra wajah yang lebih adaptif untuk kebutuhan analisis demografi, sistem layanan digital, dan aplikasi berbasis computer vision.",
         personalImpact: "Melalui proyek ini, saya mempelajari proses pengembangan sistem machine learning secara end-to-end, mulai dari preprocessing citra wajah, perancangan arsitektur CNN, optimasi hyperparameter menggunakan PSO, evaluasi model, hingga implementasi deteksi usia secara realtime. Pengalaman ini memperkuat pemahaman saya tentang hubungan antara data, algoritma, evaluasi, dan penerapan model AI dalam kasus nyata."
     },
+    {
+        slug: "aplikasi-bus-antar-provinsi",
+        title: "Aplikasi Bus Antar Provinsi",
+        description: "Aplikasi mobile untuk pemesanan tiket bus antar provinsi dengan fitur jadwal keberangkatan, peta stasiun bus, pembayaran QR code, dan tiket digital.",
+        image: "/images/aplikasi1.png",
+        images: ["/images/aplikasi1.png",],
+        link: "-",
+        accent: "border-green-200",
+        label: "Mobile App",
+        year: "2026",
+        type: "Frontend Mobile App",
+        stack: ["Flutter", "Dart", "MockAPI.io", "REST API"],
+        summary: "Aplikasi Bus Antar Provinsi merupakan aplikasi mobile yang dibuat menggunakan Flutter dan Dart untuk mempermudah pengguna dalam melakukan pemesanan tiket bus antar provinsi. Aplikasi ini mencakup fitur login, register, profile, dashboard, jadwal bus, daftar stasiun bus, checkout, lintas bus, saldo, cetak tiket, serta laporan bug. Selain itu, aplikasi juga terintegrasi dengan API berbasis MockAPI.io untuk menampilkan data koordinat stasiun bus dan daftar tiket yang tersedia.",
+        impact: "Aplikasi ini membantu mendigitalisasi proses pemesanan tiket bus yang sebelumnya dapat dilakukan secara manual. Dengan adanya fitur jadwal keberangkatan, peta stasiun bus, pembayaran melalui QR code, dan tiket digital, pengguna dapat memperoleh pengalaman pemesanan yang lebih praktis, cepat, dan terstruktur melalui perangkat mobile.",
+        personalImpact: "Melalui proyek ini, saya mempelajari proses pengembangan aplikasi mobile menggunakan Flutter dan Dart, mulai dari pembuatan antarmuka pengguna, pengelolaan navigasi halaman, integrasi API, hingga penerapan fitur pemesanan dan cetak tiket. Proyek ini juga membantu saya memahami bagaimana aplikasi mobile dapat dirancang agar memiliki alur penggunaan yang jelas dan mendukung kebutuhan transportasi digital."
+}
 ];
 
 const socials = [
