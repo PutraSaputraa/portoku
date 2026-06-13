@@ -112,8 +112,8 @@ const socials = [
         Icon: Instagram,
     },
     {
-        label: "WhatsApp",
-        href: "https://wa.me/6285702055011",
+        label: "Gmail",
+        href: "mailto:anugrahags04@gmail.com@gmail.com",
         Icon: MessageCircle,
     },
     {
