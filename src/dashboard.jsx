@@ -109,7 +109,7 @@ const projects = [
         description: "Aplikasi mobile untuk pemesanan tiket bus antar provinsi dengan fitur jadwal keberangkatan, peta stasiun bus, pembayaran QR code, dan tiket digital.",
         image: "/images/aplikasi1.png",
         images: ["/images/aplikasi1.png",],
-        link: "-",
+        link: "https://github.com/PutraSaputraa/Aplikasi-Bus-antar-provinsi",
         accent: "border-green-200",
         label: "Mobile App",
         year: "2026",
