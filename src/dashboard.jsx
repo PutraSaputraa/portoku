@@ -88,6 +88,22 @@ const projects = [
         personalImpact: "Melalui proyek ini, saya mengasah kemampuan merancang antarmuka keuangan yang menyajikan banyak informasi secara terstruktur. Saya menyusun alur untuk membaca ringkasan saldo dan arus kas, menelusuri transaksi, memantau budget, serta melihat jadwal pembayaran rutin dalam tampilan yang mudah dipahami.",
     },
     {
+        slug: "applyjobz",
+        title: "ApplyJobz",
+        description: "Aplikasi web untuk mencatat lamaran kerja, memantau tahapan rekrutmen, serta mengatur jadwal interview dan tindak lanjut dalam satu tempat.",
+        image: "/images/ApplyJobz1.jpeg",
+        images: ["/images/ApplyJobz1.jpeg", "/images/ApplyJobz2.jpeg", "/images/ApplyJobz3.jpeg"],
+        link: "https://applyjobz.netlify.app/",
+        accent: "border-violet-200",
+        label: "Job Application Tracker",
+        year: "2026",
+        type: "Career Management Web Application",
+        stack: ["React", "Vite", "Tailwind CSS", "Firebase", "Netlify Functions"],
+        summary: "ApplyJobz membantu pencari kerja mengelola proses lamaran dari menyimpan lowongan hingga keputusan akhir. Dashboard merangkum jumlah lamaran, pipeline aktif, interview, offer, agenda terdekat, dan lamaran yang perlu ditindaklanjuti. Pengguna dapat mencari dan memfilter lamaran, memperbarui status rekrutmen, serta mencatat interview, assessment, deadline, dan follow-up di kalender.",
+        impact: "Informasi lamaran, progres rekrutmen, dan jadwal tersimpan dalam satu workspace sehingga pengguna lebih mudah menentukan langkah berikutnya dan mengurangi risiko melewatkan tindak lanjut atau agenda penting.",
+        personalImpact: "Melalui proyek ini, saya mengembangkan aplikasi dengan alur yang saling terhubung antara dashboard, daftar lamaran, detail peluang, dan kalender. Saya juga menerapkan autentikasi serta pemisahan data pengguna dengan Firebase, dan membuat halaman admin untuk mengelola akses akun.",
+    },
+    {
         slug: "Skripsi",
         title: "Klasifikasi Usia Berbasis Citra Wajah dengan CNN dan PSO",
         description: "Model machine learning untuk mengklasifikasikan kelompok usia dari citra wajah menggunakan CNN yang dioptimasi dengan Particle Swarm Optimization.",
@@ -265,7 +281,7 @@ function Dashboard() {
 
                         <div className="mt-10 grid gap-6 lg:grid-cols-3">
                             {projects.map((project) => (
-                                <article key={project.link} className={`overflow-hidden rounded-lg border ${project.accent} bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl`}>
+                                <article key={project.slug} className={`overflow-hidden rounded-lg border ${project.accent} bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl`}>
                                     <Link to={`/project/${project.slug}`} className="group block">
                                         <div className="overflow-hidden bg-slate-100">
                                             <img src={project.image} alt={project.title} className="aspect-[16/11] w-full object-cover object-top transition duration-500 group-hover:scale-105" />
