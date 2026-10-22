@@ -134,7 +134,7 @@ const socials = [
     },
     {
         label: "LinkedIn",
-        href: "https://www.linkedin.com/in/Anugraha-Galih-Saputra",
+        href: "https://www.linkedin.com/in/anugraha-saputra/",
         Icon: Linkedin,
     },
 ];
