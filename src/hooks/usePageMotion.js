@@ -2,10 +2,9 @@ import { useEffect, useRef, useState } from "react";
 
 const EMPTY_IDS = [];
 
-export default function usePageMotion(sectionIds = EMPTY_IDS, projectIds = EMPTY_IDS) {
+export default function usePageMotion(sectionIds = EMPTY_IDS) {
   const pageRef = useRef(null);
   const [activeSection, setActiveSection] = useState(sectionIds[0] || "");
-  const [activeProject, setActiveProject] = useState(projectIds[0] || "");
 
   useEffect(() => {
     const page = pageRef.current;
@@ -14,11 +13,9 @@ export default function usePageMotion(sectionIds = EMPTY_IDS, projectIds = EMPTY
     const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
     const reveals = [...page.querySelectorAll("[data-reveal]")];
     const sections = sectionIds.map((id) => document.getElementById(id)).filter(Boolean);
-    const projects = projectIds.map((id) => document.getElementById(id)).filter(Boolean);
     let reducedMotion = preference.matches;
     let frame = 0;
     let currentSection = "";
-    let currentProject = "";
     let observer;
 
     if (!reducedMotion && "IntersectionObserver" in window) {
@@ -57,24 +54,6 @@ export default function usePageMotion(sectionIds = EMPTY_IDS, projectIds = EMPTY
         setActiveSection(nextSection);
       }
 
-      let nearestProject = "";
-      let nearestDistance = Infinity;
-      projects.forEach((project) => {
-        const bounds = project.getBoundingClientRect();
-        const distance = Math.abs(bounds.top + bounds.height / 2 - viewportHeight / 2);
-        if (distance < nearestDistance) {
-          nearestDistance = distance;
-          nearestProject = project.id;
-        }
-        if (bounds.top < viewportHeight + 100 && bounds.bottom > -100) {
-          const offset = reducedMotion ? 0 : Math.max(-1, Math.min(1, (bounds.top + bounds.height / 2 - viewportHeight / 2) / viewportHeight));
-          project.style.setProperty("--project-offset", offset.toFixed(3));
-        }
-      });
-      if (nearestProject !== currentProject) {
-        currentProject = nearestProject;
-        setActiveProject(nearestProject);
-      }
     }
 
     function scheduleUpdate() {
@@ -104,7 +83,7 @@ export default function usePageMotion(sectionIds = EMPTY_IDS, projectIds = EMPTY
       preference.removeEventListener("change", updatePreference);
       page.classList.remove("motion-ready");
     };
-  }, [sectionIds, projectIds]);
+  }, [sectionIds]);
 
-  return { pageRef, activeSection, activeProject };
+  return { pageRef, activeSection };
 }

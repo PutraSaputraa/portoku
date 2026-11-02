@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import Icon from "./components/Icon";
 import ImageGallery from "./components/ImageGallery";
 import usePageMotion from "./hooks/usePageMotion";
+import useProjectDeck from "./hooks/useProjectDeck";
 import { achievements, certifications, contactEmail, getProjectAnchor, getProjectPath, projects, socials } from "./data/portfolio";
 
 const SECTION_IDS = ["profile", "portfolio", "contact"];
@@ -58,16 +59,16 @@ function ProjectNavigation({ currentIndex }) {
   );
 }
 
-function ProjectShowcase({ project, index, isCurrent }) {
+function ProjectShowcase({ project, index, isCurrent, pinned, isVisible }) {
   const id = getProjectAnchor(project);
 
   return (
-    <article id={id} className={`project-showcase ${isCurrent ? "is-current" : ""}`} aria-labelledby={`${id}-title`}>
+    <article id={`${id}-panel`} className={`project-showcase ${isCurrent ? "is-current" : ""}`} aria-labelledby={`${id}-title`} aria-hidden={pinned && !isCurrent ? true : undefined} inert={pinned && !isCurrent}>
       <div className="content-shell project-layout">
         <div className="project-visual">
-          <div data-reveal><ImageGallery images={project.images} title={project.title} /></div>
+          <ImageGallery images={project.images} title={project.title} eager={isCurrent} autoPlay autoPlayActive={isCurrent && isVisible} />
         </div>
-        <div className="project-info" data-reveal data-reveal-delay="80">
+        <div className="project-info">
           <p className="project-index"><span>{number(index + 1)}</span><span className="project-index-line" />{project.year}</p>
           <p className="project-category">{project.label}</p>
           <h3 id={`${id}-title`}>{shortTitle(project)}</h3>
@@ -82,6 +83,30 @@ function ProjectShowcase({ project, index, isCurrent }) {
         </div>
       </div>
     </article>
+  );
+}
+
+function ProjectDeck() {
+  const { trackRef, stageRef, panelsRef, pinned, index, visible } = useProjectDeck(PROJECT_IDS);
+
+  useEffect(() => {
+    if (!visible || !projects[index + 1]) return;
+    const image = new Image();
+    image.src = projects[index + 1].image;
+  }, [index, visible]);
+
+  return (
+    <div className={`project-deck ${pinned ? "is-pinned" : ""}`} ref={trackRef}>
+      <div className="project-scroll-markers" aria-hidden="true">
+        {PROJECT_IDS.map((id) => <span key={id} id={id} className="project-scroll-marker" />)}
+      </div>
+      <div className="project-deck-stage" ref={stageRef}>
+        <ProjectNavigation currentIndex={index} />
+        <div className="project-panels" ref={panelsRef}>
+          {projects.map((project, projectIndex) => <ProjectShowcase key={project.slug} project={project} index={projectIndex} isCurrent={index === projectIndex} pinned={pinned} isVisible={visible} />)}
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -137,8 +162,7 @@ function Footer() {
 }
 
 function Dashboard() {
-  const { pageRef, activeSection, activeProject } = usePageMotion(SECTION_IDS, PROJECT_IDS);
-  const currentIndex = Math.max(0, PROJECT_IDS.indexOf(activeProject));
+  const { pageRef, activeSection } = usePageMotion(SECTION_IDS);
 
   useEffect(() => { document.title = SITE_TITLE; }, []);
 
@@ -168,7 +192,7 @@ function Dashboard() {
               <figcaption><span>Web Developer</span><span>Yogyakarta, Indonesia</span></figcaption>
             </figure>
           </div>
-          <div className="content-shell profile-bottom"><a href="#portfolio">Jelajahi karya<Icon name="arrowRight" /></a><span>Web &middot; Mobile &middot; Machine Learning</span></div>
+          <div className="content-shell profile-bottom"><a href="#portfolio">Jelajahi Proyek<Icon name="arrowRight" /></a><span>Web &middot; Mobile &middot; Machine Learning</span></div>
         </section>
 
         <section id="portfolio" className="portfolio-section" aria-labelledby="portfolio-heading">
@@ -176,8 +200,7 @@ function Dashboard() {
             <div><p className="section-kicker">Selected Work</p><h2 id="portfolio-heading">Portfolio</h2></div>
             <p>Aplikasi web dan machine learning yang saya kerjakan.</p>
           </div>
-          <ProjectNavigation currentIndex={currentIndex} />
-          {projects.map((project, index) => <ProjectShowcase key={project.slug} project={project} index={index} isCurrent={activeProject === getProjectAnchor(project)} />)}
+          <ProjectDeck />
         </section>
 
         <section id="certification" className="credentials-section" aria-labelledby="certification-heading">

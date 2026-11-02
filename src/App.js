@@ -9,14 +9,17 @@ function ScrollToTop() {
   useLayoutEffect(() => {
     const changedPage = previousPath.current !== pathname;
     previousPath.current = pathname;
-    const target = hash ? document.getElementById(decodeURIComponent(hash.slice(1))) : null;
-
-    if (target) {
-      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      target.scrollIntoView({ behavior: changedPage || reducedMotion ? "instant" : "smooth", block: "start" });
-    } else if (changedPage) {
-      window.scrollTo({ top: 0, behavior: "instant" });
-    }
+    // Let the project stage measure its scroll anchors before following a link.
+    const frame = window.requestAnimationFrame(() => {
+      const target = hash ? document.getElementById(decodeURIComponent(hash.slice(1))) : null;
+      if (target) {
+        const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        target.scrollIntoView({ behavior: changedPage || reducedMotion ? "instant" : "smooth", block: "start" });
+      } else if (changedPage) {
+        window.scrollTo({ top: 0, behavior: "instant" });
+      }
+    });
+    return () => window.cancelAnimationFrame(frame);
   }, [pathname, hash, key]);
 
   return null;
