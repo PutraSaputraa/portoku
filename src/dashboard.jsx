@@ -1,530 +1,271 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import Icon from "./components/Icon";
+import ImageGallery from "./components/ImageGallery";
+import usePageMotion from "./hooks/usePageMotion";
+import { achievements, certifications, contactEmail, getProjectAnchor, getProjectPath, projects, socials } from "./data/portfolio";
 
-const Instagram = ({ className }) => (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-    </svg>
-);
+const SECTION_IDS = ["profile", "portfolio", "contact"];
+const PROJECT_IDS = projects.map(getProjectAnchor);
+const SITE_TITLE = "Anugraha Galih Saputra | Web Developer";
+const shortTitle = (project) => project.slug === "Skripsi" ? "Klasifikasi usia dengan CNN dan PSO" : project.title;
+const hasWebsite = (project) => /^https?:\/\//.test(project.link);
+const number = (value) => String(value).padStart(2, "0");
 
-const Linkedin = ({ className }) => (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-        <rect x="2" y="9" width="4" height="12"></rect>
-        <circle cx="4" cy="4" r="2"></circle>
-    </svg>
-);
+function Header({ activeSection, returnTo }) {
+  return (
+    <>
+      <a className="skip-link" href="#main-content">Lewati ke konten</a>
+      <header className="site-header">
+        <div className="content-shell header-inner">
+          {returnTo ? <Link className="brand" to="/">Saputra<span>.</span></Link> : <a className="brand" href="#profile">Saputra<span>.</span></a>}
+          {returnTo ? (
+            <Link className="back-link" to={returnTo}><Icon name="arrowLeft" />Kembali ke portofolio</Link>
+          ) : (
+            <nav className="main-navigation" aria-label="Navigasi utama">
+              {[["profile", "Profil"], ["portfolio", "Portfolio"], ["contact", "Kontak"]].map(([id, label]) => (
+                <a key={id} href={`#${id}`} aria-current={activeSection === id ? "location" : undefined}>{label}</a>
+              ))}
+            </nav>
+          )}
+        </div>
+        <div className="page-progress" aria-hidden="true" />
+      </header>
+    </>
+  );
+}
 
-const MessageCircle = ({ className }) => (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-    </svg>
-);
+function ProjectNavigation({ currentIndex }) {
+  const previous = projects[currentIndex - 1];
+  const next = projects[currentIndex + 1];
 
-const ExternalLink = ({ className }) => (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-        <polyline points="15 3 21 3 21 9"></polyline>
-        <line x1="10" y1="14" x2="21" y2="3"></line>
-    </svg>
-);
+  function step(project, direction) {
+    const label = direction === "previous" ? "Proyek sebelumnya" : "Proyek berikutnya";
+    const icon = <Icon name={direction === "previous" ? "arrowLeft" : "arrowRight"} />;
+    return project ? <a className="icon-button" href={`#${getProjectAnchor(project)}`} aria-label={`${label}: ${shortTitle(project)}`}>{icon}</a> : <button className="icon-button" type="button" aria-label={label} disabled>{icon}</button>;
+  }
 
-const ArrowLeft = ({ className }) => (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <line x1="19" y1="12" x2="5" y2="12"></line>
-        <polyline points="12 19 5 12 12 5"></polyline>
-    </svg>
-);
+  return (
+    <nav className="project-navigation" aria-label="Navigasi proyek">
+      <div className="content-shell project-navigation-inner">
+        <div className="project-current" aria-live="polite" aria-atomic="true">
+          <span className="project-current-number">{number(currentIndex + 1)}<span> / {number(projects.length)}</span></span>
+          <span className="project-current-title">{shortTitle(projects[currentIndex])}</span>
+        </div>
+        <div className="project-navigation-arrows">{step(previous, "previous")}{step(next, "next")}</div>
+      </div>
+    </nav>
+  );
+}
 
-const projects = [
-    {
-        slug: "Maua Project",
-        title: "Maua Project",
-        description: "Website open trip dengan katalog perjalanan yang rapi, informatif, dan memudahkan pengunjung melihat destinasi, jadwal, harga, serta melakukan pendaftaran secara online.",
-        image: "/images/OpenCaveTrip1.png",
-        images: ["/images/OpenCaveTrip1.png", "/images/OpenCaveTrip2.png", "/images/OpenCaveTrip3.png"],
-        link: "https://mauaproject.com",
-        accent: "border-amber-200",
-        label: "Open Trip Web Application",
-        year: "2026",
-        type: "Open Trip Web Application",
-        stack: ["React", "Tailwind CSS", "Admin Page", "Worker Page", "Netlify"],
-        summary: "Open Cave Trip berisi katalog perjalanan yang menampilkan destinasi, informasi jadwal, harga, dan alur pendaftaran secara ringkas. Project ini juga memiliki page admin untuk mengelola data trip serta page worker untuk membantu proses operasional di sisi petugas.",
-        impact: "Pengalaman pemesanan menjadi lebih tertata karena informasi utama tersedia dalam satu tempat. Adanya page admin dan worker membantu pengelolaan trip lebih rapi, mempercepat proses operasional, dan membuat layanan open trip lebih siap menerima peserta.",
-        personalImpact: "Proyek ini memberikan saya pengalaman dalam menangani kebutuhan klien yang lebih kompleks. Dalam proyek ini, saya belajar merancang sistem pemesanan online langsung melalui website, membuat halaman worker untuk mengambil job pada setiap open trip, serta mengembangkan halaman admin untuk membuat jadwal, menyetujui pelanggan yang dapat mengikuti trip, dan membagikan job kepada para worker.",
-    },
-    {
-        slug: "myfinance",
-        title: "MyFinance",
-        description: "Aplikasi pengelolaan keuangan pribadi untuk mencatat transaksi, memantau saldo dan arus kas, menyusun budget, serta mengatur tagihan dan transaksi rutin.",
-        image: "/images/MyFinance1.png",
-        images: ["/images/MyFinance1.png", "/images/MyFinance2.png", "/images/MyFinance3.png"],
-        link: "https://myfinancemy.netlify.app/",
-        accent: "border-green-200",
-        label: "Personal Finance Web Application",
-        year: "2026",
-        type: "Financial Management Web Application",
-        stack: ["Dashboard Keuangan", "Manajemen Transaksi", "Budget", "Transaksi Rutin"],
-        summary: "MyFinance adalah aplikasi web untuk mengelola keuangan pribadi dalam satu tempat. Dashboard menampilkan total saldo, pemasukan, pengeluaran, arus kas, dan saldo tiap akun. Pengguna juga dapat melihat transaksi terbaru, merencanakan budget, memantau perkiraan saldo akhir bulan, serta mengatur tagihan dan transaksi rutin seperti langganan.",
-        impact: "Ringkasan keuangan dan daftar transaksi membantu pengguna memahami kondisi uangnya dari hari ke hari. Budget, jadwal pembayaran, dan perkiraan saldo akhir bulan memberi gambaran yang lebih jelas saat merencanakan pengeluaran berikutnya.",
-        personalImpact: "Melalui proyek ini, saya mengasah kemampuan merancang antarmuka keuangan yang menyajikan banyak informasi secara terstruktur. Saya menyusun alur untuk membaca ringkasan saldo dan arus kas, menelusuri transaksi, memantau budget, serta melihat jadwal pembayaran rutin dalam tampilan yang mudah dipahami.",
-    },
-    {
-        slug: "applyjobz",
-        title: "ApplyJobz",
-        description: "Aplikasi web untuk mencatat lamaran kerja, memantau tahapan rekrutmen, serta mengatur jadwal interview dan tindak lanjut dalam satu tempat.",
-        image: "/images/ApplyJobz1.jpeg",
-        images: ["/images/ApplyJobz1.jpeg", "/images/ApplyJobz2.jpeg", "/images/ApplyJobz3.jpeg"],
-        link: "https://applyjobz.netlify.app/",
-        accent: "border-violet-200",
-        label: "Job Application Tracker",
-        year: "2026",
-        type: "Career Management Web Application",
-        stack: ["React", "Vite", "Tailwind CSS", "Firebase", "Netlify Functions"],
-        summary: "ApplyJobz membantu pencari kerja mengelola proses lamaran dari menyimpan lowongan hingga keputusan akhir. Dashboard merangkum jumlah lamaran, pipeline aktif, interview, offer, agenda terdekat, dan lamaran yang perlu ditindaklanjuti. Pengguna dapat mencari dan memfilter lamaran, memperbarui status rekrutmen, serta mencatat interview, assessment, deadline, dan follow-up di kalender.",
-        impact: "Informasi lamaran, progres rekrutmen, dan jadwal tersimpan dalam satu workspace sehingga pengguna lebih mudah menentukan langkah berikutnya dan mengurangi risiko melewatkan tindak lanjut atau agenda penting.",
-        personalImpact: "Melalui proyek ini, saya mengembangkan aplikasi dengan alur yang saling terhubung antara dashboard, daftar lamaran, detail peluang, dan kalender. Saya juga menerapkan autentikasi serta pemisahan data pengguna dengan Firebase, dan membuat halaman admin untuk mengelola akses akun.",
-    },
-    {
-        slug: "MyActivity",
-        title: "MyActivity",
-        description: "Website manajemen aktivitas pribadi yang membantu pengguna mengatur rutinitas mingguan, mencatat agenda dan deadline, memantau penyelesaian aktivitas, serta menjaga konsistensi melalui fitur streak.",
-        image: "/images/myactivitys1.png",
-        images: ["/images/myactivitys1.png", "/images/myactivitys2.png", "/images/myactivitys3.png"],
-        link: "https://myactivitys.netlify.app/",
-        accent: "border-indigo-200",
-        label: "Personal Activity Management Web Application",
-        year: "2026",
-        type: "Productivity Web Application",
-        stack: ["React", "Tailwind CSS", "Responsive Design", "Calendar System", "Activity Tracking"],
-        summary: "MyActivity merupakan aplikasi produktivitas pribadi untuk mengelola rutinitas harian dan agenda dalam satu tempat. Pengguna dapat melihat aktivitas selama satu minggu melalui dashboard, menandai aktivitas yang telah selesai, memantau current streak dan perfect streak, serta melihat agenda atau deadline terdekat. Aplikasi juga menyediakan kalender bulanan dengan fitur pencarian dan filter berdasarkan jenis maupun status agenda.",
-        impact: "Pengelolaan rutinitas, rapat, acara, ujian, dan deadline menjadi lebih terstruktur karena seluruh aktivitas dapat dipantau melalui dashboard dan kalender terintegrasi. Informasi progres harian, streak, serta agenda terdekat membantu pengguna menentukan prioritas dan mengurangi risiko melewatkan kegiatan penting.",
-        personalImpact: "Proyek ini memberikan saya pengalaman dalam merancang aplikasi produktivitas dengan alur penggunaan yang saling terhubung antara dashboard, aktivitas mingguan, dan kalender. Saya belajar membuat sistem aktivitas berulang, pencatatan agenda dan deadline, perhitungan progres serta streak, filter kalender, detail agenda, dan status penyelesaian aktivitas. Saya juga mengembangkan antarmuka yang tetap informatif meskipun menampilkan banyak data dalam satu halaman.",
-    },
-    {
-        slug: "Skripsi",
-        title: "Klasifikasi Usia Berbasis Citra Wajah dengan CNN dan PSO",
-        description: "Model machine learning untuk mengklasifikasikan kelompok usia dari citra wajah menggunakan CNN yang dioptimasi dengan Particle Swarm Optimization.",
-        image: "/images/skripsi1.png",
-        images: ["/images/skripsi1.png", "/images/skripsi2.png", "/images/skripsi3.png"],
-        link: "-",
-        accent: "border-blue-200",
-        label: "Machine Learning",
-        year: "2026",
-        type: "Machine Learning",
-        stack: ["Python", "TensorFlow", "OpenCV"],
-        summary: "Penelitian ini mengembangkan model klasifikasi usia berbasis citra wajah menggunakan Convolutional Neural Network (CNN) yang dioptimasi dengan Particle Swarm Optimization (PSO). Model diuji pada dua skenario klasifikasi, yaitu 4 kelas dan 5 kelas usia, menggunakan dataset UTKFace Cropped. Optimasi dilakukan pada hyperparameter seperti learning rate, dropout cnn, dropout dense, dan dense units untuk meningkatkan performa model, kemudian hasil model diterapkan ke dalam aplikasi deteksi usia secara realtime.",
-        impact: "Penelitian ini menunjukkan bagaimana optimasi hyperparameter dengan PSO dapat membantu meningkatkan performa model CNN dalam tugas klasifikasi usia. Hasilnya dapat menjadi dasar pengembangan sistem deteksi usia berbasis citra wajah yang lebih adaptif untuk kebutuhan analisis demografi, sistem layanan digital, dan aplikasi berbasis computer vision.",
-        personalImpact: "Melalui proyek ini, saya mempelajari proses pengembangan sistem machine learning secara end-to-end, mulai dari preprocessing citra wajah, perancangan arsitektur CNN, optimasi hyperparameter menggunakan PSO, evaluasi model, hingga implementasi deteksi usia secara realtime. Pengalaman ini memperkuat pemahaman saya tentang hubungan antara data, algoritma, evaluasi, dan penerapan model AI dalam kasus nyata."
+function ProjectShowcase({ project, index, isCurrent }) {
+  const id = getProjectAnchor(project);
+
+  return (
+    <article id={id} className={`project-showcase ${isCurrent ? "is-current" : ""}`} aria-labelledby={`${id}-title`}>
+      <div className="content-shell project-layout">
+        <div className="project-visual">
+          <div data-reveal><ImageGallery images={project.images} title={project.title} /></div>
+        </div>
+        <div className="project-info" data-reveal data-reveal-delay="80">
+          <p className="project-index"><span>{number(index + 1)}</span><span className="project-index-line" />{project.year}</p>
+          <p className="project-category">{project.label}</p>
+          <h3 id={`${id}-title`}>{shortTitle(project)}</h3>
+          <p className="project-description">{project.description}</p>
+          <ul className="project-stack" aria-label="Teknologi dan fitur">
+            {project.stack.map((item) => <li key={item}>{item}</li>)}
+          </ul>
+          <div className="project-actions">
+            <Link className="button button-primary" to={getProjectPath(project)}>Lihat detail proyek<Icon name="arrowRight" /></Link>
+            {hasWebsite(project) && <a className="text-link" href={project.link} target="_blank" rel="noopener noreferrer">Lihat website<Icon name="external" /></a>}
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function Contact() {
+  const [copyStatus, setCopyStatus] = useState("");
+
+  useEffect(() => {
+    if (!copyStatus) return undefined;
+    const timeout = window.setTimeout(() => setCopyStatus(""), 3500);
+    return () => window.clearTimeout(timeout);
+  }, [copyStatus]);
+
+  async function copyEmail() {
+    try {
+      await navigator.clipboard.writeText(contactEmail);
+      setCopyStatus("Email disalin");
+    } catch {
+      setCopyStatus("Klik alamat email untuk menghubungi saya.");
     }
-];
+  }
 
-const socials = [
-    {
-        label: "Instagram",
-        href: "https://www.instagram.com/anugraha_gs?igsh=MWR5d2Q5eXd5aW53NA==",
-        Icon: Instagram,
-    },
-    {
-        label: "Gmail",
-        href: "mailto:anugrahags04@gmail.com@gmail.com",
-        Icon: MessageCircle,
-    },
-    {
-        label: "LinkedIn",
-        href: "https://www.linkedin.com/in/anugraha-saputra/",
-        Icon: Linkedin,
-    },
-];
+  return (
+    <section id="contact" className="contact-section">
+      <div className="content-shell contact-layout" data-reveal>
+        <div>
+          <p className="section-kicker">Contact</p>
+          <h2>Mari terhubung.</h2>
+          <div className="contact-email-row">
+            <a className="contact-email" href={`mailto:${contactEmail}`}>{contactEmail}</a>
+            <button className="icon-button copy-button" type="button" onClick={copyEmail} aria-label="Salin alamat email"><Icon name={copyStatus === "Email disalin" ? "check" : "copy"} /></button>
+          </div>
+          <p className="copy-status" aria-live="polite">{copyStatus}</p>
+        </div>
+        <div className="contact-socials">
+          {socials.filter((social) => social.icon !== "mail").map((social) => (
+            <a key={social.label} href={social.href} target="_blank" rel="noopener noreferrer"><Icon name={social.icon} />{social.label}<Icon name="external" /></a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
-const certifications = [
-    {
-        title: "Sertifikasi Kompetensi Sains Data",
-        images: ["/images/Sertifikasi Kompetensi Sains Data1.jpeg", "/images/Sertifikasi Kompetensi Sains Data2.jpeg"],
-        summary: "Sertifikasi ini berfokus pada kompetensi dasar hingga praktik dalam bidang sains data. Materinya mencakup tahapan kerja data science, pengolahan data, pemodelan, dan evaluasi hasil agar data dapat digunakan sebagai dasar pengambilan keputusan yang lebih terukur.",
-        personalImpact: "Sertifikasi Data Science ini membantu saya mempelajari proses pengolahan data secara menyeluruh, mulai dari mengumpulkan, menelaah, memvalidasi, menentukan objek data, membersihkan data, mengonstruksi data, menentukan label data, membangun model, hingga mengevaluasi hasil pemodelan. Dalam prosesnya, saya juga menggunakan Python sebagai tools utama untuk mengolah dan menganalisis data secara lebih terstruktur.",
-    },
-];
-
-const achievements = [
-    {
-        title: "Lomba Desain Rancangan Aplikasi",
-        image: "/images/Lomba Desain Rancangan Aplikasi 2021.jpeg",
-        summary: "Kompetisi ini berfokus pada penyusunan konsep dan rancangan aplikasi, mulai dari identifikasi masalah, perancangan solusi, desain alur penggunaan, hingga penyampaian ide dalam bentuk presentasi. Kegiatan ini menjadi ruang untuk menguji kemampuan berpikir produk dan komunikasi visual.",
-        personalImpact: "Lomba desain/rancangan aplikasi ini merupakan kompetisi pertama yang saya ikuti. Melalui lomba ini, saya belajar mendesain dan merancang aplikasi, bekerja sama dalam tim yang terdiri dari tiga orang, serta mengasah kemampuan presentasi dalam menyampaikan ide dan konsep aplikasi secara jelas.",
-    },
-];
+function Footer() {
+  return (
+    <footer className="site-footer">
+      <div className="content-shell footer-inner">
+        <p>&copy; {new Date().getFullYear()} Anugraha Galih Saputra</p>
+        <a href="#profile">Kembali ke atas<Icon name="arrowUp" /></a>
+      </div>
+    </footer>
+  );
+}
 
 function Dashboard() {
-    const [isVisible, setIsVisible] = useState(false);
+  const { pageRef, activeSection, activeProject } = usePageMotion(SECTION_IDS, PROJECT_IDS);
+  const currentIndex = Math.max(0, PROJECT_IDS.indexOf(activeProject));
 
-    useEffect(() => {
-        setIsVisible(true);
-    }, []);
+  useEffect(() => { document.title = SITE_TITLE; }, []);
 
-    const scrollToSection = (id) => {
-        const section = document.getElementById(id);
-        if (section) section.scrollIntoView({ behavior: "smooth" });
-    };
+  return (
+    <div className="site-page" ref={pageRef}>
+      <Header activeSection={activeSection} />
+      <main id="main-content" tabIndex={-1}>
+        <section id="profile" className="profile-section">
+          <div className="content-shell profile-layout">
+            <div className="profile-copy" data-reveal>
+              <p className="section-kicker">Web Developer</p>
+              <h1><span>Anugraha</span><span>Galih Saputra</span></h1>
+              <p className="profile-intro">Saya membangun website yang rapi, responsif, dan mudah digunakan. Fokus saya ada di pengalaman pengguna, visual yang bersih, serta detail kecil yang membuat website terasa matang.</p>
+              <div className="profile-actions">
+                <a className="button button-primary" href="#portfolio">Lihat Portfolio<Icon name="arrowRight" /></a>
+                <a className="button button-secondary" href="#contact">Hubungi Saya</a>
+              </div>
+              <dl className="profile-facts">
+                <div><dt>Universitas</dt><dd>UPN "Veteran" Yogyakarta</dd></div>
+                <div><dt>Fokus</dt><dd>Web, Mobile App,<br />Machine Learning</dd></div>
+              </dl>
+            </div>
+            <figure className="profile-portrait" data-reveal data-reveal-delay="100">
+              <div className="portrait-image-wrap">
+                <img src="/images/fotogua.png" alt="Anugraha Galih Saputra" width="2883" height="2883" fetchPriority="high" className="portrait-image" />
+              </div>
+              <figcaption><span>Web Developer</span><span>Yogyakarta, Indonesia</span></figcaption>
+            </figure>
+          </div>
+          <div className="content-shell profile-bottom"><a href="#portfolio">Jelajahi karya<Icon name="arrowRight" /></a><span>Web &middot; Mobile &middot; Machine Learning</span></div>
+        </section>
 
-    return (
-        <div className="min-h-screen bg-slate-50 text-slate-900">
-            <nav className="sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur">
-                <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
-                    <button onClick={() => scrollToSection("profile")} className="font-poppins text-sm font-bold text-slate-950 sm:text-base">
-                        Saputra
-                    </button>
-                    <div className="flex items-center gap-1 rounded-full border border-slate-200 bg-white p-1 shadow-sm">
-                        {["profile", "portfolio", "contact"].map((item) => (
-                            <button
-                                key={item}
-                                onClick={() => scrollToSection(item)}
-                                className="rounded-full px-3 py-2 text-xs font-semibold capitalize text-slate-600 transition hover:bg-blue-50 hover:text-blue-700 sm:px-4 sm:text-sm"
-                            >
-                                {item === "contact" ? "kontak" : item}
-                            </button>
-                        ))}
-                    </div>
+        <section id="portfolio" className="portfolio-section" aria-labelledby="portfolio-heading">
+          <div className="content-shell section-heading portfolio-heading" data-reveal>
+            <div><p className="section-kicker">Selected Work</p><h2 id="portfolio-heading">Portfolio</h2></div>
+            <p>Aplikasi web dan machine learning yang saya kerjakan.</p>
+          </div>
+          <ProjectNavigation currentIndex={currentIndex} />
+          {projects.map((project, index) => <ProjectShowcase key={project.slug} project={project} index={index} isCurrent={activeProject === getProjectAnchor(project)} />)}
+        </section>
+
+        <section id="certification" className="credentials-section" aria-labelledby="certification-heading">
+          <div className="content-shell">
+            <div className="section-heading" data-reveal><div><p className="section-kicker">Certification</p><h2 id="certification-heading">Sertifikasi</h2></div></div>
+            {certifications.map((item) => (
+              <article className="credential-row" key={item.title}>
+                <div className="credential-copy" data-reveal>
+                  <h3>{item.title}</h3><p>{item.summary}</p>
+                  <details className="learning-details"><summary>Yang saya pelajari<Icon name="plus" /></summary><p>{item.personalImpact}</p></details>
                 </div>
-            </nav>
+                <div className="credential-media" data-reveal data-reveal-delay="80"><ImageGallery images={item.images} title={item.title} className="document-gallery" /></div>
+              </article>
+            ))}
+          </div>
+        </section>
 
-            <main>
-                <section id="profile" className="overflow-hidden bg-white">
-                    <div className="mx-auto grid min-h-[calc(100vh-65px)] max-w-6xl items-center gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:py-16">
-                        <div className={`${isVisible ? "fade-in-up" : "opacity-0"} order-2 lg:order-1`}>
-                            <p className="font-poppins text-sm font-bold uppercase tracking-[0.2em] text-emerald-600">Web Developer</p>
-                            <h1 className="mt-4 font-poppins text-5xl font-bold leading-[0.98] text-slate-950 sm:text-6xl lg:text-7xl">
-                                Anugraha Galih Saputra
-                            </h1>
-                            <p className="mt-6 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
-                                Saya membangun website yang rapi, responsif, dan mudah digunakan. Fokus saya ada di pengalaman pengguna,
-                                visual yang bersih, serta detail kecil yang membuat website terasa matang.
-                            </p>
-                            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                                <button
-                                    onClick={() => scrollToSection("portfolio")}
-                                    className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-700"
-                                >
-                                    Lihat Portfolio
-                                </button>
-                                <button
-                                    onClick={() => scrollToSection("contact")}
-                                    className="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-5 py-3 text-sm font-bold text-slate-800 transition hover:border-blue-300 hover:text-blue-700"
-                                >
-                                    Hubungi Saya
-                                </button>
-                            </div>
-                            <div className="mt-10 grid max-w-2xl gap-3 sm:grid-cols-2">
-                                <div className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3">
-                                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">Universitas</p>
-                                    <p className="mt-1 text-sm font-bold text-slate-800 sm:text-base">UPN "Veteran" Yogyakarta</p>
-                                </div>
-                                <div className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3">
-                                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">Focus</p>
-                                    <p className="mt-1 text-sm font-bold text-slate-800 sm:text-base">Web, Mobile App, Machine Learning</p>
-                                </div>
-                                <a
-                                    href="mailto:anugrahags04@gmail.com"
-                                    className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 transition hover:border-blue-300 hover:bg-blue-50"
-                                >
-                                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">Email</p>
-                                    <p className="mt-1 break-words text-sm font-bold text-slate-800 sm:text-base">anugrahags04@gmail.com</p>
-                                </a>
-                                <a
-                                    href="https://portofoliosaputra.netlify.app/"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 transition hover:border-blue-300 hover:bg-blue-50"
-                                >
-                                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">Link</p>
-                                    <p className="mt-1 break-words text-sm font-bold text-slate-800 sm:text-base">portofoliosaputra.netlify.app</p>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div className={`${isVisible ? "fade-in-up delay-short" : "opacity-0"} order-1 lg:order-2 lg:-mt-8`}>
-                            <div className="mx-auto w-full max-w-sm sm:max-w-md lg:max-w-lg">
-                                <div className="rounded-lg border border-slate-200 bg-white p-3 shadow-2xl shadow-slate-200/70">
-                                    <div className="relative overflow-hidden rounded-md bg-gradient-to-b from-slate-100 to-blue-50">
-                                        <img
-                                            src="/images/fotogua.png"
-                                            alt="Anugraha Galih Saputra"
-                                            className="mx-auto aspect-[4/4.6] w-full object-cover object-bottom fade-mask"
-                                        />
-                                    </div>
-                                    <div className="flex flex-col gap-3 px-1 pt-4 sm:flex-row sm:items-center sm:justify-between">
-                                        <div>
-                                            <p className="font-poppins text-lg font-bold text-slate-950">Anugraha Galih Saputra</p>
-                                            <p className="text-sm font-medium text-slate-500">Web Developer from Yogyakarta</p>
-                                        </div>
-                                        <div className="flex gap-2">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <section id="portfolio" className="bg-slate-50 px-4 py-16 sm:px-6">
-                    <div className="mx-auto max-w-6xl">
-                        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-                            <div>
-                                <p className="font-poppins text-sm font-bold uppercase tracking-[0.2em] text-emerald-600">Selected Work</p>
-                                <h2 className="mt-3 font-poppins text-4xl font-bold text-slate-950 sm:text-5xl">Portfolio</h2>
-                            </div>
-                            <p className="max-w-xl text-base leading-7 text-slate-600">
-                            </p>
-                        </div>
-
-                        <div className="mt-10 grid gap-6 lg:grid-cols-3">
-                            {projects.map((project) => (
-                                <article key={project.slug} className={`overflow-hidden rounded-lg border ${project.accent} bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl`}>
-                                    <Link to={`/project/${project.slug}`} className="group block">
-                                        <div className="overflow-hidden bg-slate-100">
-                                            <img src={project.image} alt={project.title} className="aspect-[16/11] w-full object-cover object-top transition duration-500 group-hover:scale-105" />
-                                        </div>
-                                        <div className="p-5">
-                                            <div className="flex items-center justify-between gap-3">
-                                                <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600">{project.label}</span>
-                                                <ExternalLink className="h-5 w-5 text-blue-600" />
-                                            </div>
-                                            <h3 className="mt-4 font-poppins text-2xl font-bold text-slate-950">{project.title}</h3>
-                                            <p className="mt-3 text-sm leading-6 text-slate-600">{project.description}</p>
-                                            <p className="mt-5 text-sm font-bold text-blue-600">Lihat detail project</p>
-                                        </div>
-                                    </Link>
-                                </article>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-
-                <section id="certification" className="bg-white px-4 py-16 sm:px-6">
-                    <div className="mx-auto max-w-6xl">
-                        <div>
-                            <p className="font-poppins text-sm font-bold uppercase tracking-[0.2em] text-emerald-600">Certification</p>
-                            <h2 className="mt-3 font-poppins text-4xl font-bold text-slate-950 sm:text-5xl">Sertifikasi</h2>
-                        </div>
-
-                        <div className="mt-10 grid gap-8">
-                            {certifications.map((item) => (
-                                <article key={item.title} className="grid gap-6 lg:grid-cols-[1fr_0.9fr] lg:items-start">
-                                    <div className="grid gap-4 sm:grid-cols-2">
-                                        {item.images.map((image, index) => (
-                                            <div key={image} className="overflow-hidden rounded-lg border border-slate-200 bg-white">
-                                                <img
-                                                    src={image}
-                                                    alt={`${item.title} ${index + 1}`}
-                                                    className="aspect-[4/3] w-full object-cover object-top"
-                                                />
-                                            </div>
-                                        ))}
-                                    </div>
-                                    <div className="p-1 lg:p-3">
-                                        <h3 className="font-poppins text-2xl font-bold text-slate-950">{item.title}</h3>
-                                        <div className="mt-5">
-                                            <h4 className="font-poppins text-lg font-bold text-slate-950">Summary</h4>
-                                            <p className="mt-2 text-base leading-8 text-slate-600">{item.summary}</p>
-                                        </div>
-                                        <div className="mt-5">
-                                            <h4 className="font-poppins text-lg font-bold text-slate-950">Impact kepada saya</h4>
-                                            <p className="mt-2 text-base leading-8 text-slate-600">{item.personalImpact}</p>
-                                        </div>
-                                    </div>
-                                </article>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-
-                <section id="achievement" className="bg-slate-50 px-4 py-16 sm:px-6">
-                    <div className="mx-auto max-w-6xl">
-                        <div>
-                            <p className="font-poppins text-sm font-bold uppercase tracking-[0.2em] text-emerald-600">Achievement</p>
-                            <h2 className="mt-3 font-poppins text-4xl font-bold text-slate-950 sm:text-5xl">Penghargaan dan Prestasi</h2>
-                        </div>
-
-                        <div className="mt-10 grid gap-8">
-                            {achievements.map((item) => (
-                                <article key={item.title} className="grid gap-6 lg:grid-cols-[0.9fr_1fr] lg:items-start">
-                                    <div className="overflow-hidden rounded-lg border border-slate-200 bg-slate-100">
-                                        <img
-                                            src={item.image}
-                                            alt={item.title}
-                                            className="aspect-[4/3] w-full object-cover object-center"
-                                        />
-                                    </div>
-                                    <div className="p-1 lg:p-3">
-                                        <h3 className="font-poppins text-2xl font-bold text-slate-950">{item.title}</h3>
-                                        <div className="mt-5">
-                                            <h4 className="font-poppins text-lg font-bold text-slate-950">Summary</h4>
-                                            <p className="mt-2 text-base leading-8 text-slate-600">{item.summary}</p>
-                                        </div>
-                                        <div className="mt-5">
-                                            <h4 className="font-poppins text-lg font-bold text-slate-950">Impact kepada saya</h4>
-                                            <p className="mt-2 text-base leading-8 text-slate-600">{item.personalImpact}</p>
-                                        </div>
-                                    </div>
-                                </article>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-
-                <section id="contact" className="bg-white px-4 py-16 sm:px-6">
-                    <div className="mx-auto max-w-6xl">
-                        <div className="rounded-lg border border-slate-200 bg-slate-950 px-5 py-8 text-white sm:px-8 md:flex md:items-center md:justify-between">
-                            <div>
-                                <p className="font-poppins text-sm font-bold uppercase tracking-[0.2em] text-emerald-300">Contact</p>
-                                <h2 className="mt-3 font-poppins text-3xl font-bold">Mari terhubung</h2>
-                            </div>
-                            <div className="mt-6 flex flex-col gap-3 sm:flex-row md:mt-0">
-                                {socials.map(({ label, href, Icon }) => (
-                                    <a
-                                        key={label}
-                                        href={href}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex items-center justify-center gap-3 rounded-lg bg-white px-5 py-3 text-sm font-bold text-slate-950 transition hover:bg-blue-50 hover:text-blue-700"
-                                    >
-                                        <Icon className="h-5 w-5" />
-                                        {label}
-                                    </a>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </main>
-
-            <footer className="border-t border-slate-200 bg-white px-4 py-6 text-center text-sm text-slate-500">
-                &copy; 2025 Anugraha Galih Saputra. All rights reserved.
-            </footer>
-        </div>
-    );
+        <section id="achievement" className="credentials-section achievement-section" aria-labelledby="achievement-heading">
+          <div className="content-shell">
+            <div className="section-heading" data-reveal><div><p className="section-kicker">Achievement</p><h2 id="achievement-heading">Penghargaan dan prestasi</h2></div></div>
+            {achievements.map((item) => (
+              <article className="credential-row" key={item.title}>
+                <div className="credential-copy" data-reveal>
+                  <h3>{item.title}</h3><p>{item.summary}</p>
+                  <details className="learning-details"><summary>Pengalaman saya<Icon name="plus" /></summary><p>{item.personalImpact}</p></details>
+                </div>
+                <div className="credential-media" data-reveal data-reveal-delay="80"><ImageGallery images={[item.image]} title={item.title} className="document-gallery" /></div>
+              </article>
+            ))}
+          </div>
+        </section>
+        <Contact />
+      </main>
+      <Footer />
+    </div>
+  );
 }
 
 function ProjectDetail() {
-    const { slug } = useParams();
-    const navigate = useNavigate();
-    const project = projects.find((item) => item.slug === slug);
+  const { slug } = useParams();
+  const project = projects.find((item) => item.slug === slug);
+  const { pageRef } = usePageMotion();
 
-    if (!project) {
-        return (
-            <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4 text-slate-900">
-                <div className="max-w-md text-center">
-                    <p className="font-poppins text-sm font-bold uppercase tracking-[0.2em] text-emerald-600">Project</p>
-                    <h1 className="mt-3 font-poppins text-4xl font-bold text-slate-950">Project tidak ditemukan</h1>
-                    <button
-                        onClick={() => navigate("/")}
-                        className="mt-8 inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-700"
-                    >
-                        <ArrowLeft className="h-5 w-5" />
-                        Kembali ke dashboard
-                    </button>
-                </div>
-            </div>
-        );
-    }
+  useEffect(() => {
+    document.title = project ? `${project.title} | Anugraha Galih Saputra` : `Proyek tidak ditemukan | Anugraha Galih Saputra`;
+  }, [project]);
 
+  if (!project) {
     return (
-        <div className="min-h-screen bg-slate-50 text-slate-900">
-            <nav className="sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur">
-                <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
-                    <button onClick={() => navigate("/")} className="font-poppins text-sm font-bold text-slate-950 sm:text-base">
-                        Saputra
-                    </button>
-                    <button
-                        onClick={() => navigate("/")}
-                        className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-bold text-slate-800 transition hover:border-blue-300 hover:text-blue-700"
-                    >
-                        <ArrowLeft className="h-4 w-4" />
-                        Dashboard
-                    </button>
-                </div>
-            </nav>
-
-            <main className="px-4 py-10 sm:px-6 lg:py-14">
-                <section className="mx-auto max-w-6xl">
-                    <p className="font-poppins text-sm font-bold uppercase tracking-[0.2em] text-emerald-600">{project.label}</p>
-                    <h1 className="mt-3 font-poppins text-4xl font-bold leading-tight text-slate-950 sm:text-5xl lg:text-6xl">{project.title}</h1>
-                    <div className="mt-5 flex flex-wrap gap-2">
-                        {project.stack.map((item) => (
-                            <span key={item} className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-bold text-slate-600 shadow-sm">
-                                {item}
-                            </span>
-                        ))}
-                    </div>
-                </section>
-
-                <section className="mx-auto mt-10 grid max-w-6xl gap-8 lg:grid-cols-[1fr_0.95fr] lg:items-start">
-                    <div className="grid gap-4">
-                        {project.images.map((image, index) => (
-                            <div key={image} className={`overflow-hidden rounded-lg border ${project.accent} bg-white shadow-sm`}>
-                                <img
-                                    src={image}
-                                    alt={`${project.title} tampilan ${index + 1}`}
-                                    className="aspect-[16/10] w-full object-cover object-top"
-                                />
-                            </div>
-                        ))}
-                    </div>
-
-                    <aside className="lg:sticky lg:top-24">
-                        <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-                            <div className="grid grid-cols-2 gap-3">
-                                <div className="rounded-lg bg-slate-50 p-4">
-                                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">Tahun Project</p>
-                                    <p className="mt-2 font-poppins text-2xl font-bold text-slate-950">{project.year}</p>
-                                </div>
-                                <div className="rounded-lg bg-slate-50 p-4">
-                                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">Type</p>
-                                    <p className="mt-2 font-poppins text-xl font-bold text-slate-950">{project.type}</p>
-                                </div>
-                            </div>
-
-                            <div className="mt-7">
-                                <h2 className="font-poppins text-2xl font-bold text-slate-950">Summary</h2>
-                                <p className="mt-3 text-base leading-8 text-slate-600">{project.summary}</p>
-                            </div>
-
-                            <div className="mt-7">
-                                <h2 className="font-poppins text-2xl font-bold text-slate-950">Impact</h2>
-                                <p className="mt-3 text-base leading-8 text-slate-600">{project.impact}</p>
-                            </div>
-
-                            <div className="mt-7">
-                                <h2 className="font-poppins text-2xl font-bold text-slate-950">Impact kepada saya</h2>
-                                <p className="mt-3 text-base leading-8 text-slate-600">{project.personalImpact}</p>
-                            </div>
-
-                            <div className="mt-8 flex flex-col gap-3 sm:flex-row lg:flex-col">
-                                <a
-                                    href={project.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-700"
-                                >
-                                    Buka link project
-                                    <ExternalLink className="h-5 w-5" />
-                                </a>
-                                <button
-                                    onClick={() => navigate("/")}
-                                    className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-5 py-3 text-sm font-bold text-slate-800 transition hover:border-blue-300 hover:text-blue-700"
-                                >
-                                    <ArrowLeft className="h-5 w-5" />
-                                    Kembali ke dashboard
-                                </button>
-                            </div>
-                        </div>
-                    </aside>
-                </section>
-            </main>
-        </div>
+      <div className="site-page" ref={pageRef}>
+        <Header returnTo="/#portfolio" />
+        <main id="main-content" className="content-shell not-found" tabIndex={-1}>
+          <p className="section-kicker">Project</p><h1>Proyek tidak ditemukan.</h1>
+          <Link className="button button-primary" to="/#portfolio"><Icon name="arrowLeft" />Kembali ke portofolio</Link>
+        </main>
+      </div>
     );
+  }
+
+  const nextProject = projects[projects.indexOf(project) + 1];
+  const returnTo = `/#${getProjectAnchor(project)}`;
+
+  return (
+    <div className="site-page detail-page" ref={pageRef}>
+      <Header returnTo={returnTo} />
+      <main id="main-content" tabIndex={-1}>
+        <header className="content-shell detail-heading" data-reveal>
+          <p className="section-kicker">{project.label}</p><h1>{project.title}</h1>
+          <p className="detail-intro">{project.description}</p>
+          <ul className="project-stack" aria-label="Teknologi dan fitur">{project.stack.map((item) => <li key={item}>{item}</li>)}</ul>
+        </header>
+        <div className="content-shell detail-layout">
+          <div className="detail-gallery" data-reveal><ImageGallery key={project.slug} images={project.images} title={project.title} eager /></div>
+          <div className="detail-story" data-reveal data-reveal-delay="80">
+            <dl className="detail-metadata"><div><dt>Tahun</dt><dd>{project.year}</dd></div><div><dt>Jenis proyek</dt><dd>{project.type}</dd></div></dl>
+            <section><h2>Tentang proyek</h2><p>{project.summary}</p></section>
+            <section><h2>Manfaat</h2><p>{project.impact}</p></section>
+            <section><h2>Pengalaman saya</h2><p>{project.personalImpact}</p></section>
+            {hasWebsite(project) && <a className="button button-primary" href={project.link} target="_blank" rel="noopener noreferrer">Buka website proyek<Icon name="external" /></a>}
+          </div>
+        </div>
+        <nav className="content-shell detail-next" aria-label="Lanjut menjelajahi proyek">
+          <Link className="back-link" to={returnTo}><Icon name="arrowLeft" />Semua proyek</Link>
+          {nextProject && <Link className="next-project-link" to={getProjectPath(nextProject)}><span>Proyek berikutnya<strong>{shortTitle(nextProject)}</strong></span><Icon name="arrowRight" /></Link>}
+        </nav>
+      </main>
+    </div>
+  );
 }
 
 export default Dashboard;
