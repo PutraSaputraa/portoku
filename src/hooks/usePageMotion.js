@@ -16,6 +16,7 @@ export default function usePageMotion(sectionIds = EMPTY_IDS) {
     let reducedMotion = preference.matches;
     let frame = 0;
     let currentSection = "";
+    let scrollTimeout;
     let observer;
 
     if (!reducedMotion && "IntersectionObserver" in window) {
@@ -87,6 +88,10 @@ export default function usePageMotion(sectionIds = EMPTY_IDS) {
 
     function scheduleUpdate() {
       if (!frame) frame = window.requestAnimationFrame(updatePosition);
+      // Pause decorative animations while scrolling for smoother experience
+      page.classList.add("is-scrolling");
+      window.clearTimeout(scrollTimeout);
+      scrollTimeout = window.setTimeout(() => page.classList.remove("is-scrolling"), 150);
     }
 
     function updatePreference(event) {
@@ -111,12 +116,14 @@ export default function usePageMotion(sectionIds = EMPTY_IDS) {
     return () => {
       observer?.disconnect();
       window.cancelAnimationFrame(frame);
+      window.clearTimeout(scrollTimeout);
       window.removeEventListener("scroll", scheduleUpdate);
       window.removeEventListener("resize", scheduleUpdate);
       preference.removeEventListener("change", updatePreference);
       page.removeEventListener("mousemove", handleMagneticMove);
       page.removeEventListener("mouseleave", handleMagneticLeave, true);
       page.classList.remove("motion-ready");
+      page.classList.remove("is-scrolling");
     };
   }, [sectionIds]);
 

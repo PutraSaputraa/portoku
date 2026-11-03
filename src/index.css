@@ -20,6 +20,24 @@ button, a { -webkit-tap-highlight-color: transparent; }
 button { cursor: pointer; }
 button:disabled { cursor: default; }
 a, button, summary { touch-action: manipulation; }
+
+/* Performance: pause heavy animations when user is scrolling */
+.site-page.is-scrolling .profile-blobs span,
+.site-page.is-scrolling .profile-marquee-track,
+.site-page.is-scrolling .motion-ready .profile-bottom a .icon {
+  animation-play-state: paused !important;
+}
+
+/* Reduce GPU load on low-end devices */
+@media (max-resolution: 96dpi), (max-width: 1440px) {
+  .profile-blobs span { filter: blur(60px); }
+}
+
+/* Defer off-screen rendering */
+.credentials-section, .contact-section, .site-footer {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 500px;
+}
 button:focus-visible, a:focus-visible, summary:focus-visible { outline: 2px solid var(--blue); outline-offset: 5px; }
 main:focus { outline: none; }
 ::selection { background: #dbeafe; color: #172554; }
