@@ -29,11 +29,6 @@ export default function useProjectDeck(projectIds) {
     let snapTarget = null;
     let snapFrame = 0;
 
-    function cancelSnap() {
-      snapFrame = 0;
-      snapTarget = null;
-    }
-
     function animateSnap() {
       snapFrame = 0;
       if (snapTarget === null || !mounted) return;
