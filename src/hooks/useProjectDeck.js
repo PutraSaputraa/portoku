@@ -26,36 +26,6 @@ export default function useProjectDeck(projectIds) {
     let scrollFrame = 0;
     let measureFrame = 0;
     let mounted = true;
-    let snapTarget = null;
-    let snapFrame = 0;
-
-    function animateSnap() {
-      snapFrame = 0;
-      if (snapTarget === null || !mounted) return;
-      const distance = snapTarget - window.scrollY;
-      if (Math.abs(distance) < 1.5) {
-        window.scrollTo({ top: snapTarget, behavior: "instant" });
-        snapTarget = null;
-        return;
-      }
-      window.scrollTo({ top: window.scrollY + distance * 0.16, behavior: "instant" });
-      snapFrame = window.requestAnimationFrame(animateSnap);
-    }
-
-    function scheduleSnap() {
-      if (!metrics.pinned || preference.matches) return;
-      window.clearTimeout(scheduleSnap.timer);
-      scheduleSnap.timer = window.setTimeout(() => {
-        if (!mounted || !metrics.pinned) return;
-        const progress = Math.max(0, Math.min(1, (window.scrollY - metrics.start) / metrics.range));
-        const nearest = Math.round(progress * (articles.length - 1));
-        const target = metrics.start + (nearest / Math.max(1, articles.length - 1)) * metrics.range;
-        if (Math.abs(window.scrollY - target) > 4) {
-          snapTarget = target;
-          if (!snapFrame) snapFrame = window.requestAnimationFrame(animateSnap);
-        }
-      }, 110);
-    }
 
     function updatePosition() {
       scrollFrame = 0;
@@ -94,7 +64,6 @@ export default function useProjectDeck(projectIds) {
     }
 
     function schedulePosition() {
-      scheduleSnap();
       if (!scrollFrame) scrollFrame = window.requestAnimationFrame(updatePosition);
     }
 
@@ -186,8 +155,6 @@ export default function useProjectDeck(projectIds) {
       observer?.disconnect();
       window.cancelAnimationFrame(scrollFrame);
       window.cancelAnimationFrame(measureFrame);
-      window.cancelAnimationFrame(snapFrame);
-      window.clearTimeout(scheduleSnap.timer);
       window.removeEventListener("scroll", schedulePosition);
       window.removeEventListener("resize", scheduleMeasure);
       preference.removeEventListener("change", scheduleMeasure);
