@@ -63,8 +63,9 @@ function ProjectShowcase({ project, index, isCurrent, pinned, isVisible }) {
   const id = getProjectAnchor(project);
 
   return (
-    <article id={`${id}-panel`} className={`project-showcase ${isCurrent ? "is-current" : ""}`} aria-labelledby={`${id}-title`} aria-hidden={pinned && !isCurrent ? true : undefined} inert={pinned && !isCurrent}>
-      <div className="content-shell project-layout">
+    <article id={`${id}-panel`} className={`project-showcase ${isCurrent ? "is-current" : ""}`} aria-labelledby={`${id}-title`}>
+      <span className="project-ghost-number" aria-hidden="true">{number(index + 1)}</span>
+      <div className="project-layout">
         <div className="project-visual">
           <ImageGallery images={project.images} title={project.title} eager={isCurrent} autoPlay autoPlayActive={isCurrent && isVisible} />
         </div>
@@ -74,7 +75,7 @@ function ProjectShowcase({ project, index, isCurrent, pinned, isVisible }) {
           <h3 id={`${id}-title`}>{shortTitle(project)}</h3>
           <p className="project-description">{project.description}</p>
           <ul className="project-stack" aria-label="Teknologi dan fitur">
-            {project.stack.map((item) => <li key={item}>{item}</li>)}
+            {project.stack.map((item, stackIndex) => <li key={item} style={{ "--stack-index": stackIndex }}>{item}</li>)}
           </ul>
           <div className="project-actions">
             <Link className="button button-primary" to={getProjectPath(project)}>Lihat detail proyek<Icon name="arrowRight" /></Link>
@@ -171,10 +172,11 @@ function Dashboard() {
       <Header activeSection={activeSection} />
       <main id="main-content" tabIndex={-1}>
         <section id="profile" className="profile-section">
+          <div className="profile-blobs" aria-hidden="true"><span /><span /><span /></div>
           <div className="content-shell profile-layout">
             <div className="profile-copy" data-reveal>
               <p className="section-kicker">Web Developer</p>
-              <h1><span>Anugraha</span><span>Galih Saputra</span></h1>
+              <h1><span className="hero-line"><span>Anugraha</span></span><span className="hero-line"><span>Galih Saputra</span></span></h1>
               <p className="profile-intro">Saya membangun website yang rapi, responsif, dan mudah digunakan. Fokus saya ada di pengalaman pengguna, visual yang bersih, serta detail kecil yang membuat website terasa matang.</p>
               <div className="profile-actions">
                 <a className="button button-primary" href="#portfolio">Lihat Portfolio<Icon name="arrowRight" /></a>
@@ -191,6 +193,17 @@ function Dashboard() {
               </div>
               <figcaption><span>Web Developer</span><span>Yogyakarta, Indonesia</span></figcaption>
             </figure>
+          </div>
+          <div className="profile-marquee" aria-hidden="true">
+            <div className="profile-marquee-track">
+              {Array.from({ length: 2 }, (_, copy) => (
+                <span key={copy} className="profile-marquee-content">
+                  {["Web Development", "Mobile App", "Machine Learning", "UI Engineering", "Clean Code"].map((item) => (
+                    <span key={item} className="profile-marquee-item">{item}<i /></span>
+                  ))}
+                </span>
+              ))}
+            </div>
           </div>
           <div className="content-shell profile-bottom"><a href="#portfolio">Jelajahi Proyek<Icon name="arrowRight" /></a><span>Web &middot; Mobile &middot; Machine Learning</span></div>
         </section>

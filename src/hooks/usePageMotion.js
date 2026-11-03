@@ -41,6 +41,15 @@ export default function usePageMotion(sectionIds = EMPTY_IDS) {
       const progress = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
       page.style.setProperty("--page-progress", progress.toFixed(4));
 
+      if (!reducedMotion) {
+        const portrait = page.querySelector(".profile-portrait");
+        if (portrait) {
+          const box = portrait.getBoundingClientRect();
+          const centerOffset = (box.top + box.height / 2 - viewportHeight / 2) / viewportHeight;
+          portrait.style.setProperty("--portrait-parallax", `${(centerOffset * -24).toFixed(1)}px`);
+        }
+      }
+
       let nextSection = sections[0]?.id || "";
       sections.forEach((section) => {
         if (section.getBoundingClientRect().top <= viewportHeight * 0.5) nextSection = section.id;
