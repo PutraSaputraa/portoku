@@ -55,7 +55,7 @@ function ImageLightbox({ images, index, onSelect, onClose, title }) {
   );
 }
 
-export default function ImageGallery({ images, title, className = "", eager = false, autoPlay = false, autoPlayActive = true }) {
+export default function ImageGallery({ images, title, className = "", eager = false, autoPlay = false, autoPlayActive = true, heroTransition = false }) {
   const [index, setIndex] = useState(0);
   const [previousIndex, setPreviousIndex] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -125,6 +125,7 @@ export default function ImageGallery({ images, title, className = "", eager = fa
           src={images[index]}
           alt={`${title}, tampilan ${index + 1}`}
           className="gallery-image gallery-image-current"
+          style={heroTransition ? { viewTransitionName: "project-hero" } : undefined}
           loading={eager ? "eager" : "lazy"}
           decoding="async"
           onLoad={() => { lastLoadedIndex.current = index; setIsLoaded(true); }}

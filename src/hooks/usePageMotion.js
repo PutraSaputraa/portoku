@@ -65,6 +65,26 @@ export default function usePageMotion(sectionIds = EMPTY_IDS) {
 
     }
 
+    function handleMagneticMove(event) {
+      if (reducedMotion) return;
+      const button = event.target.closest(".button-primary");
+      if (!button) return;
+      const box = button.getBoundingClientRect();
+      const x = event.clientX - box.left;
+      const y = event.clientY - box.top;
+      const centerX = box.width / 2;
+      const centerY = box.height / 2;
+      const pull = 6;
+      button.style.setProperty("--mouse-x", `${(x / box.width * 100).toFixed(1)}%`);
+      button.style.setProperty("--mouse-y", `${(y / box.height * 100).toFixed(1)}%`);
+      button.style.transform = `translate(${((x - centerX) / centerX * pull).toFixed(1)}px, ${((y - centerY) / centerY * pull).toFixed(1)}px)`;
+    }
+
+    function handleMagneticLeave(event) {
+      const button = event.target.closest(".button-primary");
+      if (button) button.style.transform = "";
+    }
+
     function scheduleUpdate() {
       if (!frame) frame = window.requestAnimationFrame(updatePosition);
     }
@@ -83,6 +103,10 @@ export default function usePageMotion(sectionIds = EMPTY_IDS) {
     window.addEventListener("scroll", scheduleUpdate, { passive: true });
     window.addEventListener("resize", scheduleUpdate);
     preference.addEventListener("change", updatePreference);
+    if (window.matchMedia("(pointer: fine)").matches) {
+      page.addEventListener("mousemove", handleMagneticMove);
+      page.addEventListener("mouseleave", handleMagneticLeave, true);
+    }
 
     return () => {
       observer?.disconnect();
@@ -90,6 +114,8 @@ export default function usePageMotion(sectionIds = EMPTY_IDS) {
       window.removeEventListener("scroll", scheduleUpdate);
       window.removeEventListener("resize", scheduleUpdate);
       preference.removeEventListener("change", updatePreference);
+      page.removeEventListener("mousemove", handleMagneticMove);
+      page.removeEventListener("mouseleave", handleMagneticLeave, true);
       page.classList.remove("motion-ready");
     };
   }, [sectionIds]);

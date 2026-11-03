@@ -12,7 +12,7 @@ export default function useProjectDeck(projectIds) {
   const trackRef = useRef(null);
   const stageRef = useRef(null);
   const panelsRef = useRef(null);
-  const [view, setView] = useState({ pinned: false, index: 0, visible: false });
+  const [view, setView] = useState({ pinned: false, index: 0, visible: false, progress: 0 });
   const viewRef = useRef(view);
 
   useLayoutEffect(() => {
@@ -26,17 +26,55 @@ export default function useProjectDeck(projectIds) {
     let scrollFrame = 0;
     let measureFrame = 0;
     let mounted = true;
+    let snapTarget = null;
+    let snapFrame = 0;
+
+    function cancelSnap() {
+      snapFrame = 0;
+      snapTarget = null;
+    }
+
+    function animateSnap() {
+      snapFrame = 0;
+      if (snapTarget === null || !mounted) return;
+      const distance = snapTarget - window.scrollY;
+      if (Math.abs(distance) < 1.5) {
+        window.scrollTo({ top: snapTarget, behavior: "instant" });
+        snapTarget = null;
+        return;
+      }
+      window.scrollTo({ top: window.scrollY + distance * 0.16, behavior: "instant" });
+      snapFrame = window.requestAnimationFrame(animateSnap);
+    }
+
+    function scheduleSnap() {
+      if (!metrics.pinned || preference.matches) return;
+      window.clearTimeout(scheduleSnap.timer);
+      scheduleSnap.timer = window.setTimeout(() => {
+        if (!mounted || !metrics.pinned) return;
+        const progress = Math.max(0, Math.min(1, (window.scrollY - metrics.start) / metrics.range));
+        const nearest = Math.round(progress * (articles.length - 1));
+        const target = metrics.start + (nearest / Math.max(1, articles.length - 1)) * metrics.range;
+        if (Math.abs(window.scrollY - target) > 4) {
+          snapTarget = target;
+          if (!snapFrame) snapFrame = window.requestAnimationFrame(animateSnap);
+        }
+      }, 110);
+    }
 
     function updatePosition() {
       scrollFrame = 0;
       let index = 0;
+      let progress = 0;
 
       if (metrics.pinned) {
-        const progress = Math.max(0, Math.min(1, (window.scrollY - metrics.start) / metrics.range));
+        progress = Math.max(0, Math.min(1, (window.scrollY - metrics.start) / metrics.range));
         panels.style.transform = `translate3d(${(-progress * metrics.maxShift).toFixed(1)}px, 0, 0)`;
         index = Math.max(0, Math.min(articles.length - 1, Math.round(progress * (articles.length - 1))));
+        panels.style.setProperty("--deck-progress", progress.toFixed(4));
       } else {
         panels.style.transform = "";
+        panels.style.setProperty("--deck-progress", "0");
         const viewportHeight = window.innerHeight;
         let nearestDistance = Infinity;
         articles.forEach((article, articleIndex) => {
@@ -52,15 +90,16 @@ export default function useProjectDeck(projectIds) {
       const stageBox = stage.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
       const visibleHeight = Math.max(0, Math.min(stageBox.bottom, viewportHeight) - Math.max(stageBox.top, metrics.header));
-      const next = { pinned: metrics.pinned, index, visible: visibleHeight >= Math.min(240, stageBox.height * 0.5) };
+      const next = { pinned: metrics.pinned, index, visible: visibleHeight >= Math.min(240, stageBox.height * 0.5), progress };
       const previous = viewRef.current;
-      if (previous.pinned !== next.pinned || previous.index !== next.index || previous.visible !== next.visible) {
+      if (previous.pinned !== next.pinned || previous.index !== next.index || previous.visible !== next.visible || Math.abs(previous.progress - next.progress) > 0.01) {
         viewRef.current = next;
         setView(next);
       }
     }
 
     function schedulePosition() {
+      scheduleSnap();
       if (!scrollFrame) scrollFrame = window.requestAnimationFrame(updatePosition);
     }
 
@@ -152,6 +191,8 @@ export default function useProjectDeck(projectIds) {
       observer?.disconnect();
       window.cancelAnimationFrame(scrollFrame);
       window.cancelAnimationFrame(measureFrame);
+      window.cancelAnimationFrame(snapFrame);
+      window.clearTimeout(scheduleSnap.timer);
       window.removeEventListener("scroll", schedulePosition);
       window.removeEventListener("resize", scheduleMeasure);
       preference.removeEventListener("change", scheduleMeasure);

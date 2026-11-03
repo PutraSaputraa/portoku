@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import Icon from "./components/Icon";
 import ImageGallery from "./components/ImageGallery";
 import usePageMotion from "./hooks/usePageMotion";
@@ -14,6 +14,8 @@ const hasWebsite = (project) => /^https?:\/\//.test(project.link);
 const number = (value) => String(value).padStart(2, "0");
 
 function Header({ activeSection, returnTo }) {
+  const navItems = [["profile", "Profil"], ["portfolio", "Portfolio"], ["contact", "Kontak"]];
+
   return (
     <>
       <a className="skip-link" href="#main-content">Lewati ke konten</a>
@@ -24,7 +26,8 @@ function Header({ activeSection, returnTo }) {
             <Link className="back-link" to={returnTo}><Icon name="arrowLeft" />Kembali ke portofolio</Link>
           ) : (
             <nav className="main-navigation" aria-label="Navigasi utama">
-              {[["profile", "Profil"], ["portfolio", "Portfolio"], ["contact", "Kontak"]].map(([id, label]) => (
+              <span className="nav-pill" aria-hidden="true" style={{ "--active-index": Math.max(0, navItems.findIndex(([id]) => id === activeSection)) }} />
+              {navItems.map(([id, label]) => (
                 <a key={id} href={`#${id}`} aria-current={activeSection === id ? "location" : undefined}>{label}</a>
               ))}
             </nav>
@@ -36,7 +39,7 @@ function Header({ activeSection, returnTo }) {
   );
 }
 
-function ProjectNavigation({ currentIndex }) {
+function ProjectNavigation({ currentIndex, progress }) {
   const previous = projects[currentIndex - 1];
   const next = projects[currentIndex + 1];
 
@@ -55,12 +58,24 @@ function ProjectNavigation({ currentIndex }) {
         </div>
         <div className="project-navigation-arrows">{step(previous, "previous")}{step(next, "next")}</div>
       </div>
+      <div className="project-deck-progress" aria-hidden="true"><span style={{ transform: `scaleX(${progress})` }} /></div>
     </nav>
   );
 }
 
 function ProjectShowcase({ project, index, isCurrent, pinned, isVisible }) {
   const id = getProjectAnchor(project);
+  const navigate = useNavigate();
+
+  function openDetail(event) {
+    if (!document.startViewTransition) return;
+    event.preventDefault();
+    const image = event.currentTarget.closest(".project-showcase").querySelector(".gallery-image-current");
+    image?.style.setProperty("view-transition-name", "project-hero");
+    document.startViewTransition(() => {
+      navigate(getProjectPath(project));
+    });
+  }
 
   return (
     <article id={`${id}-panel`} className={`project-showcase ${isCurrent ? "is-current" : ""}`} aria-labelledby={`${id}-title`}>
@@ -78,7 +93,7 @@ function ProjectShowcase({ project, index, isCurrent, pinned, isVisible }) {
             {project.stack.map((item, stackIndex) => <li key={item} style={{ "--stack-index": stackIndex }}>{item}</li>)}
           </ul>
           <div className="project-actions">
-            <Link className="button button-primary" to={getProjectPath(project)}>Lihat detail proyek<Icon name="arrowRight" /></Link>
+            <Link className="button button-primary" to={getProjectPath(project)} onClick={openDetail}>Lihat detail proyek<Icon name="arrowRight" /></Link>
             {hasWebsite(project) && <a className="text-link" href={project.link} target="_blank" rel="noopener noreferrer">Lihat website<Icon name="external" /></a>}
           </div>
         </div>
@@ -88,7 +103,7 @@ function ProjectShowcase({ project, index, isCurrent, pinned, isVisible }) {
 }
 
 function ProjectDeck() {
-  const { trackRef, stageRef, panelsRef, pinned, index, visible } = useProjectDeck(PROJECT_IDS);
+  const { trackRef, stageRef, panelsRef, pinned, index, visible, progress } = useProjectDeck(PROJECT_IDS);
 
   useEffect(() => {
     if (!visible || !projects[index + 1]) return;
@@ -102,7 +117,7 @@ function ProjectDeck() {
         {PROJECT_IDS.map((id) => <span key={id} id={id} className="project-scroll-marker" />)}
       </div>
       <div className="project-deck-stage" ref={stageRef}>
-        <ProjectNavigation currentIndex={index} />
+        <ProjectNavigation currentIndex={index} progress={progress} />
         <div className="project-panels" ref={panelsRef}>
           {projects.map((project, projectIndex) => <ProjectShowcase key={project.slug} project={project} index={projectIndex} isCurrent={index === projectIndex} pinned={pinned} isVisible={visible} />)}
         </div>
@@ -189,7 +204,7 @@ function Dashboard() {
             </div>
             <figure className="profile-portrait" data-reveal data-reveal-delay="100">
               <div className="portrait-image-wrap">
-                <img src="/images/fotogua.png" alt="Anugraha Galih Saputra" width="2883" height="2883" fetchPriority="high" className="portrait-image" />
+                <img src="/images/optimized/fotogua.webp" alt="Anugraha Galih Saputra" width="2883" height="2883" fetchPriority="high" className="portrait-image" />
               </div>
               <figcaption><span>Web Developer</span><span>Yogyakarta, Indonesia</span></figcaption>
             </figure>
@@ -286,7 +301,7 @@ function ProjectDetail() {
           <ul className="project-stack" aria-label="Teknologi dan fitur">{project.stack.map((item) => <li key={item}>{item}</li>)}</ul>
         </header>
         <div className="content-shell detail-layout">
-          <div className="detail-gallery" data-reveal><ImageGallery key={project.slug} images={project.images} title={project.title} eager /></div>
+          <div className="detail-gallery" data-reveal><ImageGallery key={project.slug} images={project.images} title={project.title} eager heroTransition /></div>
           <div className="detail-story" data-reveal data-reveal-delay="80">
             <dl className="detail-metadata"><div><dt>Tahun</dt><dd>{project.year}</dd></div><div><dt>Jenis proyek</dt><dd>{project.type}</dd></div></dl>
             <section><h2>Tentang proyek</h2><p>{project.summary}</p></section>
